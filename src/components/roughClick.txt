@@ -1,0 +1,31 @@
+import { GalleryImages } from '../components/GalleryImages'
+
+
+let [index, setIndex] = useState(1)
+
+
+    
+  return (
+    <>
+    
+     <Navbar/>
+     <div className='w-2xl '>
+        <img className='h-' src={GalleryImages[index].src}/>
+        <button onClick={() =>( 
+            setIndex(index+1))} className='bg-gray-400 rounded' >click me</button>
+     </div>
+    
+
+
+    
+
+
+    <Footer/>
+    
+    
+    </>
+   
+  )
+}
+
+export default Pricing

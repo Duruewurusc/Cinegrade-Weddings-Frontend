@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+@font-face {
+  font-family: AdventPro;
+  font-style: bold;
+  src: url("../assets/fonts/AdventPro-Bold.ttf");
+}
+
+@theme {
+  --font-AdventPro: "AdventPro";
+}
