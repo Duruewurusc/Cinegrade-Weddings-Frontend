@@ -20,7 +20,7 @@ import AboutPage from './pages/AboutUs';
 import BookingManagement from './pages/Up Coming Event';
 import CreateClient from './pages/NewClientAdd';
 import ViewEditBooking from './pages/ViewBooking';
-import AdminDashboard from './pages/analytics';
+import AdminDashboard from './pages/Analytics';
 import Blog from './pages/Blog';
 import LinksPage from './pages/Links';
 
