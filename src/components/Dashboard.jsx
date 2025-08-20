@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import api from "../services/Api";
 
 
 export default function Dashboard() {
@@ -16,7 +16,7 @@ export default function Dashboard() {
           const token = localStorage.getItem("access");
           const config = { headers: { Authorization: `Bearer ${token}` } };
   
-          const userRes = await axios.get("http://127.0.0.1:8000/auth/users/me/", config);
+          const userRes = await api.get("/auth/users/me/", config);
           setUser(userRes.data);
           
           

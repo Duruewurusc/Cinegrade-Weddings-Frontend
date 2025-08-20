@@ -21,7 +21,7 @@ export default function AuthForm() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { login, booking } = useUser();
-  const endpoint = 'http://127.0.0.1:8000/auth/users/';
+
   const navigate = useNavigate();
 
   // Password visibility states

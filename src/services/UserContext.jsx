@@ -146,7 +146,7 @@ export const UserProvider = ({ children }) => {
                 
                 try {
                     const refreshToken = localStorage.getItem('refresh');
-                    const response = await axios.post('http://localhost:8000/auth/jwt/refresh/', {
+                    const response = await api.post('/auth/jwt/refresh/', {
                         refresh: refreshToken
                     });
                     
