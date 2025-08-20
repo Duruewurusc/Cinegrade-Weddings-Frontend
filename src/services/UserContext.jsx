@@ -85,7 +85,7 @@ export const UserProvider = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
             
             // Get user data
-            const userResponse = await api.get('/auth/users/me/');
+            const userResponse = await api.get('/auth/users/me/', { headers: { Authorization: `Bearer ${access}` } });
             
             setUser(userResponse.data);
             setIsAuthenticated(true);

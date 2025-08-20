@@ -19,13 +19,7 @@ export default function Dashboard() {
           const userRes = await api.get("/auth/users/me/", config);
           setUser(userRes.data);
           
-          
-  
-        //   const bookingRes = await axios.get("/api/bookings/me/", config);
-        //   setBooking(bookingRes.data);
-  
-        //   const packagesRes = await axios.get("/api/packages/", config);
-        //   setPackages(packagesRes.data);
+
         } catch (err) {
           console.error(err);
           navigate("/login");
