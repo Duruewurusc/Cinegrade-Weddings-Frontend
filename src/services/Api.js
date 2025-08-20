@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const api = axios.create({
-  baseURL: 'cinegradeapi.onrender.com/'
+  baseURL: ''
   //'http://127.0.0.1:8000/',
   // baseURL: 'http://192.168.116.59:8000',
  
