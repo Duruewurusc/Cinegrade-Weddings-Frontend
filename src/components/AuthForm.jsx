@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../services/UserContext";
 import { FiEye, FiEyeOff } from "react-icons/fi"; // Import eye icons
+import api from "../services/Api";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -57,7 +58,7 @@ export default function AuthForm() {
           return;
         }
 
-        const res = await axios.post(endpoint, {
+        const res = await api.post('/auth/users/', {
           first_name: formData.first_name,
           last_name: formData.last_name,
           email: formData.email,
