@@ -12,6 +12,7 @@ const ClientsList = () => {
   const navigate = useNavigate();
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -20,6 +21,9 @@ const ClientsList = () => {
         setClients(data);
       } catch (error) {
         console.error('Error fetching clients:', error);
+      }
+      finally {
+        setLoading(false);
       }
     };
     
@@ -46,7 +50,15 @@ const ClientsList = () => {
   const handleCreateClient = () => {
     navigate('/dashboard/clientlist/new');
   };
-
+  if (loading) {
+    return (<>
+       <Navbar/>
+      <div className="flex justify-center items-center h-screen">
+         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d9b683]"></div>
+      </div>
+      </>
+    );
+  }
   return (
   <>
     <Navbar/>

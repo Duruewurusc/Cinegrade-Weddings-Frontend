@@ -105,7 +105,7 @@ const ClientBookingPage = () => {
       <>
        <Navbar/>
       <div className="flex justify-center items-center h-screen">
-        <FaSpinner className="animate-spin text-4xl text-[#d9b683]" />
+         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d9b683]"></div>
       </div>
       </>
     );

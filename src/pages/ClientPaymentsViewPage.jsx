@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar';
 import DashboardLayout from '../components/dashboardLayout/';
 import { FaSpinner } from 'react-icons/fa';
+import api from '../services/Api';
 
 const ClientPaymentsViewPage = () => {
   const user = localStorage.getItem('user')
@@ -25,13 +26,13 @@ const ClientPaymentsViewPage = () => {
         const config = { headers: { Authorization: `Bearer ${token}` } };
         
         // Replace with your actual API endpoint
-        const response = await axios.get('http://127.0.0.1:8000/api/payments/', config);
-        const booking_response = await axios.get('http://127.0.0.1:8000/api/bookings/', config);
+        const response = await api.get('/api/payments/', config);
+        const booking_response = await api.get('/api/bookings/', config);
         setPayment(response.data);
         setBooking(booking_response.data);
         setFilteredPayments(response.data);
         setLoading(false);
-        // console.log(booking_response.data)
+     
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -97,11 +98,10 @@ const ClientPaymentsViewPage = () => {
   };
 
   if (loading) {
-    return (
-      <>
+    return (<>
        <Navbar/>
       <div className="flex justify-center items-center h-screen">
-        <FaSpinner className="animate-spin text-4xl text-[#d9b683]" />
+         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d9b683]"></div>
       </div>
       </>)
   }

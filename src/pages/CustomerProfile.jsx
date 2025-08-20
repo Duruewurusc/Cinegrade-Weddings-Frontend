@@ -144,11 +144,12 @@ const CustomerProfile = () => {
 
   // Loading state
   if (loading && !customer) {
-    return (
+    return (<>
+       <Navbar/>
       <div className="flex justify-center items-center h-screen">
-        <FaSpinner className="animate-spin text-4xl text-indigo-600" />
+         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d9b683]"></div>
       </div>
-    );
+      </>);
   }
 
   // Error state

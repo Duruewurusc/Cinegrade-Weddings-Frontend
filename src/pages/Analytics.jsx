@@ -237,7 +237,15 @@ export default function AdminDashboard() {
     loadData();
   }, []);
 
-  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+ if (loading) {
+    return (<>
+       <Navbar/>
+      <div className="flex justify-center items-center h-screen">
+         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d9b683]"></div>
+      </div>
+      </>
+    );
+  }
   if (error) return <div className="text-red-500 p-4">Error: {error}</div>;
 
   // Process data for charts
