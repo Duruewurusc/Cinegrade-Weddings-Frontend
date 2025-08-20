@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from './Api';
 
 import { fetchCompanyInfo } from './Api';
 const UserContext = createContext();
@@ -51,7 +52,7 @@ export const UserProvider = ({ children }) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
        
         try {
-          const response = await axios.get("http://127.0.0.1:8000/auth/users/me/")
+          const response = await api.get("/auth/users/me/")
           setUser(response.data);
           console.log(response.data)
           setIsAuthenticated(true);  
@@ -70,7 +71,7 @@ export const UserProvider = ({ children }) => {
 
    const login = async (username, password) => {
         try {
-          const response = await axios.post('http://localhost:8000/auth/jwt/create/', {
+          const response = await api.post('/auth/jwt/create/', {
                 username,
                 password
             });
@@ -84,7 +85,7 @@ export const UserProvider = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
             
             // Get user data
-            const userResponse = await axios.get('http://localhost:8000/auth/users/me/');
+            const userResponse = await api.get('/auth/users/me/');
             
             setUser(userResponse.data);
             setIsAuthenticated(true);
