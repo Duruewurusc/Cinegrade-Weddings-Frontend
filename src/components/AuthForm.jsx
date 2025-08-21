@@ -271,6 +271,19 @@ export default function AuthForm() {
                 ? "Don't have an account? Sign up"
                 : "Already have an account? Sign in"}
             </button>
+            
+            
+          </div>
+
+           <div className="mt-2 text-center">
+            <button
+              onClick={()=>navigate('/forgot-password')}
+              className="font-medium text-[#d9b683] hover:text-[#b89a6a] transition-colors"
+            >
+             Forgot Password?
+            </button>
+            
+            
           </div>
         </div>
       </div>

@@ -23,6 +23,7 @@ import ViewEditBooking from './pages/ViewBooking';
 import AdminDashboard from './pages/Analytics';
 import Blog from './pages/Blog';
 import LinksPage from './pages/Links';
+import ForgotPassword from './pages/ForgotPassword';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/aboutus" element={<AboutPage/>}></Route>
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/blog" element={<Blog/>}></Route>
+          <Route path="/forgot-password" element={<ForgotPassword/>}></Route>
 
           <Route path="/dashboard/upcoming-events" element={<BookingManagement />}></Route>
           <Route path="/dashboard/new-booking" element={<NewBookingPage />}></Route>
