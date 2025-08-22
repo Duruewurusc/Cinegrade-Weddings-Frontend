@@ -145,9 +145,9 @@ const Pricing = () => {
                     alt="Gallery Banner" 
                     className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/100 bg-opacity-40  py-5 z-0">
-                    <div className='absolute bottom-40 md:bottom-60 right-0 left-0 flex flex-col items-center justify-center'>
-                    <h1 className="font-serif font-medium text-4xl md:text-6xl lg:text-7xl  tracking-tight text-white mb-4">Wedding Packages</h1> 
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/100 bg-opacity-40  py-5 z-0">
+                    <div className='absolute bottom-30 md:bottom-40 right-0 left-0 flex flex-col items-center justify-center'>
+                    <h1 className="font-serif font-bold text-2xl md:text-6xl lg:text-7xl  tracking-tight text-white mb-4">Packages & Pricing</h1> 
                     <p className="text-sm md:text-xl text-[#e0e0e0]">Affordable Wedding Photgraphy and Videography pricing</p></div>
                 </div>
                 
