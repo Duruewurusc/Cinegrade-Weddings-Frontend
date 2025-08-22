@@ -208,9 +208,9 @@ const Gallery = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
-                className='pt-7 text-4xl text-center font-bold text-[#363636]'
+                className='py-20 text-5xl text-center font-bold text-[#363636]'
             >
-                Gallery
+                
             </motion.h1>
             
             <div className="p-4 md:p-10 flex items-center justify-center max-w-[1300px] mx-auto">

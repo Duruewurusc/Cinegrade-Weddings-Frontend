@@ -55,7 +55,10 @@ const HomeCard = () => {
         className='flex flex-col justify-center md:w-1/2 py-6 md:py-0'
       >
         <p className='text-gray-600 text-xl md:text-2xl tracking-wide text-center md:text-left'>
-          "At <span className='font-bold text-[#d9b683]'>CineGRADE Weddings</span>, we believe that every wedding is a unique love story waiting to be beautifully told. With a team of highly skilled photographers and videographers, we specialize in capturing every heartfelt moment, ensuring that your big day is preserved in stunning visuals that last a lifetime."
+          "At <span className='font-bold text-[#d9b683]'>CineGRADE Weddings</span>, we believe that every 
+          wedding is a unique love story waiting to be beautifully told. With a team of highly skilled
+           photographers and videographers, we specialize in capturing every heartfelt moment, ensuring
+            that your big day is preserved in stunning visuals that last a lifetime."
         </p>
       </motion.div>
     </motion.div>

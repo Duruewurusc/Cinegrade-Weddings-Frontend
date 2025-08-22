@@ -5,7 +5,7 @@ import { HiFilm } from "react-icons/hi";
 const Stats = () => {
   return (
     <div className="w-full  mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-b from-[#ffffff] to-[#e9e9e9]">
-      <div className='bg-[#ebcea4] hidden md:block w-sm md:w-xs h-1 mx-auto mb-15'></div>
+      {/* <div className='bg-[#ebcea4] hidden md:block w-sm md:w-xs h-1 mx-auto mb-15'></div> */}
       <div className="mx-auto grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-7xl">
         {/* Stat 1 - Weddings Captured */}
         <div className="flex flex-col items-center text-center p-4 sm:p-6">

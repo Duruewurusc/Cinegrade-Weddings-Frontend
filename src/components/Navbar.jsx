@@ -46,6 +46,9 @@ const Navbar = ({show=true}) => {
           <li className={`text-lg p-4 hover:text-black transition-colors ${isActive('/blog') ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
             <Link to="/blog">Blog</Link>
           </li>
+          <li className={`text-lg p-4 hover:text-black transition-colors ${isActive('/blog') ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
+            <Link to="/others">Other Events</Link>
+          </li>
           
         </ul>
  
