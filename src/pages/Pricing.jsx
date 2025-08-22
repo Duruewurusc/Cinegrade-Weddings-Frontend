@@ -77,7 +77,7 @@ const Pricing = () => {
     const [error, setError] = useState(null)
     const { booking, setBooking } = useUser()
     const { user } = useUser()
-    const [activeFilter, setActiveFilter] = useState('combo')
+    const [activeFilter, setActiveFilter] = useState('photo')
 
     // Filter packages
     const photoPackages = packages.filter(pkg => pkg.category === 'photo');
@@ -369,67 +369,90 @@ const Pricing = () => {
                 {(activeFilter === 'all' || activeFilter === 'combo') && comboPackages.length > 0 && (
                     <>
                         <motion.h3 
-                            variants={itemVariants}
-                            className='text-center font-bold text-xl md:text-2xl pb-6'
+                     variants={itemVariants}
+                            className='text-center font-bold text-xl md:text-4xl pb-15'
                         >
-                            Photo and Video Combo Packages
-                        </motion.h3>
-                        <div className='max-w-4xl mx-auto py-2 '>
-                            {comboPackages.map((pkg) => (
-                                <motion.div 
-                                    key={pkg.id}
-                                    variants={packageVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                    whileHover="hover"
-                                    className="flex flex-col md:flex-row mx-auto gap-10 px-6 mb-10 py-6 bg-[#e9e9e9] shadow-lg rounded-lg"
-                                >
-                                    <div className='w-[500px] h-[440px] px-auto md:px-6 mt-1 items-center justify-center overflow-hidden'>
-                                        <motion.img 
-                                            src={pkg.image} 
-                                            className='mt-[-40px]'
-                                            initial={{ opacity: 0, scale: 0.9 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: 0.2 }}
-                                        />
-                                    </div>
-                                    <div className=''>
-                                        <h3 className="text-[#272727] pt-7 text-3xl font-bold">{pkg.package_name}</h3>
-                                        <p className="py-2 text-[#272727] text-lg mb-3">{pkg.description}</p>
-                                        <ul className="list-disc list-inside text-lg text-gray-600">
-                                            {pkg.deliverables.split(",").map((item, index) => (
-                                                <li key={index}>{item.trim()}</li>
-                                            ))}
-                                        </ul>
-                                        <p className="text-gray-800 font-bold mb-2 py-6">
+                            Photography Packages
+                </motion.h3>
+                <div className='w-full py-10 px-2 md:px-15 bg-[#f3f3f3]'>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                        {comboPackages.map((pkg) => (
+                            <motion.div 
+                                key={pkg.id}
+                                variants={packageVariants}
+                                initial="hidden"
+                                animate="visible"
+                                whileHover="hover"
+                                className="flex flex-col bg-transparent overflow-hidden h-full shadow-sm"
+                            >
+                                <div className='relative h-80 overflow-hidden rounded-t-2xl'>
+                                    <div 
+                                        className="absolute inset-0 bg-cover bg-center"
+                                        style={{ backgroundImage: `url(${pkg.image})` }}
+                                    >
+
+                                        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                                        <h3 className="text-3xl font-bold mb-2">{pkg.package_name}</h3>
+                                        <p className="text-xl font-semibold">
                                             ₦{parseFloat(pkg.price).toLocaleString()}
                                             {pkg.is_popular && (
                                                 <motion.span 
                                                     initial={{ scale: 0 }}
                                                     animate={{ scale: 1 }}
-                                                    className="mx-3 inline-block bg-[#d9b683] text-white text-xs px-5 py-1 rounded-full"
+                                                    className="ml-3 inline-block bg-[#d9b683] text-white text-sm px-4 py-1 rounded-full"
                                                 >
                                                     Popular
                                                 </motion.span>
                                             )}
                                         </p>
+                                    </div>
+
+
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                                        <h3 className="text-3xl font-bold mb-2">{pkg.package_name}</h3>
+                                        <p className="text-xl font-semibold">
+                                            ₦{parseFloat(pkg.price).toLocaleString()}
+                                            {pkg.is_popular && (
+                                                <motion.span 
+                                                    initial={{ scale: 0 }}
+                                                    animate={{ scale: 1 }}
+                                                    className="ml-3 inline-block bg-[#d9b683] text-white text-sm px-4 py-1 rounded-full"
+                                                >
+                                                    Popular
+                                                </motion.span>
+                                            )}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className='p-6 flex flex-col flex-grow bg-white'>
+                                    <p className="py-2 text-gray-800 text-lg mb-3">{pkg.description}</p>
+                                    <ul className="list-disc list-inside text-base text-gray-700 flex-grow space-y-2">
+                                        {pkg.deliverables.split(",").map((item, index) => (
+                                            <li key={index} className="font-medium">{item.trim()}</li>
+                                        ))}
+                                    </ul>
+                                    <div className="mt-6">
                                         <motion.button 
-                                            whileHover={{ scale: 1.03 }}
+                                            whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className='mb-3 w-sm text-md h-10 bg-[#222222] text-white border-gray-300 rounded-md hover:bg-gray-800'
+                                            className='w-full text-lg h-12 bg-[#222222] text-white border-gray-300 rounded-xl hover:bg-gray-800 font-bold'
                                             onClick={() => {
                                                 localStorage.setItem('order', pkg.id)
                                                 setBooking(JSON.stringify(pkg));
-                                                console.log('order is '+localStorage.getItem('order'));
+                                                console.log('order is'+localStorage.getItem('order'));
                                                 user ? navigate('/dashboard/new-booking') : navigate('/login')
                                             }}
                                         >
                                             Book Now
                                         </motion.button>
                                     </div>
-                                </motion.div>
-                            ))}
-                        </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
                     </>
                 )}
             </motion.div>
