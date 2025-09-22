@@ -538,7 +538,7 @@ const Pricing = () => {
 
             
                 {/* Terms and Conditions Section */}
-                <div className="max-w-7xl mx-auto  px-4 py-15">
+                <div className="max-w-6xl mx-auto  px-4 py-15">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -546,15 +546,15 @@ const Pricing = () => {
                         className="bg-white p-6  "
                     >
                         <h3 className="text-2xl md:text-4xl font-bold text-[#d9b683] mb-4 text-center">Terms & Conditions</h3>
-                        <div className=" space-y-3 py-6 text-sm md:text-2xl text-[#5e5e5e] w-full">
-                            <p><strong>• Booking & Reservation:</strong> A non-refundable deposit of 50% is required to secure your booking date. The remaining balance is due 14 days prior to your event.</p>
-                            <p><strong>• Cancellation Policy:</strong> In the event of cancellation, the deposit is non-refundable. Cancellations made less than 30 days before the event will incur 100% of the package cost.</p>
-                            <p><strong>• Rescheduling:</strong> Clients may reschedule once without penalty if notice is provided at least 30 days prior to the original event date, subject to availability.</p>
-                            <p><strong>• Delivery Time:</strong> Final edited photos/videos will be delivered within 4-8 weeks after the event. Rush delivery may be available for an additional fee.</p>
-                            <p><strong>• Copyright:</strong> The photographer/videographer retains copyright of all images/videos while granting the client permission to reproduce and share images/videos.</p>
-                            <p><strong>• Liability:</strong> In the unlikely event of equipment failure, illness, or other circumstances beyond our control, liability is limited to a full refund of all payments received.</p>
-                            <p><strong>• Additional Expenses:</strong> Any additional expenses incurred during the assignment (travel, accommodation, etc.) will be charged to the client.</p>
-                            <p><strong>• Creative License:</strong> The photographer/videographer reserves the right to use discretion regarding editing and processing of final images/videos.</p>
+                        <div className=" space-y-3 py-6 text-sm md:text-xl text-[#5e5e5e] w-full">
+                            <p><strong>Booking & Reservation:</strong> A non-refundable deposit of 50% is required to secure your booking date. The remaining balance is due 14 days prior to your event.</p>
+                            <p><strong>Cancellation Policy:</strong> In the event of cancellation, the deposit is non-refundable. Cancellations made less than 30 days before the event will incur 100% of the package cost.</p>
+                            <p><strong>Rescheduling:</strong> Clients may reschedule once without penalty if notice is provided at least 30 days prior to the original event date, subject to availability.</p>
+                            <p><strong>Delivery Time:</strong> Final edited photos/videos will be delivered within 4-8 weeks after the event. Rush delivery may be available for an additional fee.</p>
+                            <p><strong>Copyright:</strong> The photographer/videographer retains copyright of all images/videos while granting the client permission to reproduce and share images/videos.</p>
+                            <p><strong>Liability:</strong> In the unlikely event of equipment failure, illness, or other circumstances beyond our control, liability is limited to a full refund of all payments received.</p>
+                            <p><strong>Additional Expenses:</strong> Any additional expenses incurred during the assignment (travel, accommodation, etc.) will be charged to the client.</p>
+                            <p><strong>Creative License:</strong> The photographer/videographer reserves the right to use discretion regarding editing and processing of final images/videos.</p>
                         </div>
                     </motion.div>
                 </div>
