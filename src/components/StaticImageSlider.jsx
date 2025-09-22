@@ -131,7 +131,7 @@ const ImageSlider = () => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-10"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2  bg-opacity-10 hover:bg-opacity-100 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-10"
           aria-label="Previous images"
         >
           <FiChevronLeft className="w-6 h-6 text-gray-800" />
@@ -139,7 +139,7 @@ const ImageSlider = () => {
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-10"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-opacity-10 hover:bg-opacity-100 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-10"
           aria-label="Next images"
         >
           <FiChevronRight className="w-6 h-6 text-gray-800" />

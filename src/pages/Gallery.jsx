@@ -249,7 +249,7 @@ const Gallery = () => {
                                     <div className="overflow-hidden rounded w-full h-full">
                                         <img  
                                             src={image.src} 
-                                            alt={`Gallery ${image.id}`}
+                                            // alt={`Gallery ${image.id}`}
                                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                         />
                                     </div>
