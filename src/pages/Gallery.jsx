@@ -208,8 +208,8 @@ const Gallery = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
-                className='py-20 text-5xl text-center font-bold text-[#363636]'
-            >
+                className='py-10 sm:py-20 text-5xl text-center font-bold text-[#363636]'
+            > Gallery
                 
             </motion.h1>
             
@@ -231,7 +231,7 @@ const Gallery = () => {
                             variants={galleryVariants}
                             initial="hidden"
                             animate="visible"
-                            className="columns-1 sm:columns-2 md:columns-3 gap-4"
+                            className="columns-2 sm:columns-2 md:columns-3 gap-4"
                         >
                             {filteredImages.map((image, index) => (
                                 <motion.div
@@ -249,7 +249,7 @@ const Gallery = () => {
                                     <div className="overflow-hidden rounded w-full h-full">
                                         <img  
                                             src={image.src} 
-                                            // alt={`Gallery ${image.id}`}
+                                            alt={`Gallery ${image.id}`}
                                             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                         />
                                     </div>
