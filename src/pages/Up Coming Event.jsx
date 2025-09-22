@@ -249,7 +249,14 @@ const BookingManagement = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredBookings.map((booking) => (
+                  {filteredBookings.length === 0 ? (
+              <div className="text-center py-6">
+                <p className="text-gray-500 ">
+                  {searchTerm ? 'No matching bookings found' : 'No upcoming bookings available'}
+                </p>
+              </div>
+            ) : (
+                  filteredBookings.map((booking) => (
                     <tr key={booking.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
@@ -294,7 +301,7 @@ const BookingManagement = () => {
                         </div>
                       </td>
                     </tr>
-                  ))}
+                  )))}
                 </tbody>
               </table>
             </div>
