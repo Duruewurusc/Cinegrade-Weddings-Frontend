@@ -10,9 +10,11 @@ import { postBookings } from '../services/Api';
 import { postInvoiceItem } from '../services/Api';
 import Navbar from '../components/Navbar';
 import DashboardLayout from '../components/dashboardLayout';
+import { useNavigate } from 'react-router-dom';
 
 
 const CreateBooking = () => {
+  const navigate = useNavigate()
   const [step, setStep] = useState(1);
   const [users, setUsers] = useState([]);
   const [packages, setPackages] = useState([]);
@@ -196,7 +198,8 @@ const CreateBooking = () => {
       // Redirect or show success message
       console.log(selectedPackages)
       console.log(selectedAddons)
-      window.location.href = `/dashboard/invoice/${formData.booking_id}`;
+      // window.location.href = `/dashboard/invoice/${formData.booking_id}`;
+      navigate(`/dashboard/invoice/${formData.booking_id}`)
     } catch (err) {
       setError(err.message);
     } finally {
