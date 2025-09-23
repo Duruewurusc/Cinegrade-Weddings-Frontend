@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaCalendarAlt, FaMapMarkerAlt, FaUser, FaArrowRight, FaArrowLeft, FaCheck, FaPlus, FaMinus, FaTrash } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaUser, FaArrowRight, FaArrowLeft, FaCheck, FaPlus, FaMinus } from 'react-icons/fa';
 import { FiPackage } from 'react-icons/fi';
 import { useUser } from '../services/UserContext';
 import { fetchClientList, updateBookings } from '../services/Api';
@@ -11,6 +11,7 @@ import { postInvoiceItem } from '../services/Api';
 import Navbar from '../components/Navbar';
 import DashboardLayout from '../components/dashboardLayout';
 import { useNavigate } from 'react-router-dom';
+
 
 const CreateBooking = () => {
   const navigate = useNavigate()
@@ -41,13 +42,6 @@ const CreateBooking = () => {
   // Invoice items
   const [selectedPackages, setSelectedPackages] = useState([]);
   const [selectedAddons, setSelectedAddons] = useState([]);
-  const [customPackages, setCustomPackages] = useState([]);
-  const [newCustomPackage, setNewCustomPackage] = useState({
-    description: '',
-    deliverables: '',
-    quantity: 1,
-    price: ''
-  });
 
   // Fetch users if admin
   useEffect(() => {
@@ -115,57 +109,6 @@ const CreateBooking = () => {
     });
   };
 
-  // Custom package functions
-  const handleCustomPackageChange = (e) => {
-    const { name, value } = e.target;
-    setNewCustomPackage(prev => ({ 
-      ...prev, 
-      [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value 
-    }));
-  };
-
-  const addCustomPackage = () => {
-    if (newCustomPackage.description.trim() === '') {
-      setError('Please enter a name for the custom package');
-      return;
-    }
-
-    if (newCustomPackage.price <= 0) {
-      setError('Please enter a valid price for the custom package');
-      return;
-    }
-
-    const customPackage = {
-      id: Date.now(), // Unique ID for the custom package
-      description: newCustomPackage.description,
-      deliverables: newCustomPackage.deliverables,
-      quantity: newCustomPackage.quantity,
-      price: newCustomPackage.price,
-      isCustom: true
-    };
-
-    setCustomPackages(prev => [...prev, customPackage]);
-    setNewCustomPackage({
-      description: '',
-      deliverables: '',
-      quantity: 1,
-      price: 0
-    });
-    setError(null);
-  };
-
-  const removeCustomPackage = (id) => {
-    setCustomPackages(prev => prev.filter(item => item.id !== id));
-  };
-
-  const updateCustomPackageQuantity = (id, newQuantity) => {
-    setCustomPackages(prev => 
-      prev.map(item => 
-        item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
-      )
-    );
-  };
-
   const updateQuantity = (type, id, newQuantity) => {
     if (type === 'package') {
       setSelectedPackages(prev => 
@@ -173,7 +116,7 @@ const CreateBooking = () => {
           item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
         )
       );
-    } else if (type === 'addon') {
+    } else {
       setSelectedAddons(prev => 
         prev.map(item => 
           item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
@@ -222,7 +165,7 @@ const CreateBooking = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Create invoice items for packages, addons, and custom packages
+      // Create invoice items for packages
       localStorage.removeItem('bookingData')
       await Promise.all([
         ...selectedPackages.map(item => 
@@ -236,6 +179,7 @@ const CreateBooking = () => {
             price: item.price,
             is_taxable: false
           })
+          
         ),
         ...selectedAddons.map(item => 
           postInvoiceItem({
@@ -249,23 +193,11 @@ const CreateBooking = () => {
             is_taxable: true
           })
         ),
-        ...customPackages.map(item => 
-          postInvoiceItem({
-            invoice: bookingData.id,
-            item_type: 'other',
-            description: item.description,
-            deliverables: item.deliverables,
-            quantity: item.quantity,
-            price: item.price,
-            is_taxable: true
-          })
-        ),
       ]);
       
       // Redirect or show success message
       console.log(selectedPackages)
       console.log(selectedAddons)
-      console.log(customPackages)
       // window.location.href = `/dashboard/invoice/${formData.booking_id}`;
       navigate(`/dashboard/invoice/${formData.booking_id}`)
     } catch (err) {
@@ -277,7 +209,7 @@ const CreateBooking = () => {
     }
   };
 
-  const totalAmount = [...selectedPackages, ...selectedAddons, ...customPackages].reduce(
+  const totalAmount = [...selectedPackages, ...selectedAddons].reduce(
     (sum, item) => sum + (item.price * item.quantity), 0
   );
 
@@ -538,125 +470,6 @@ const CreateBooking = () => {
             </div>
           </div>
 
-          {/* Custom Packages Section */}
-          <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">Custom Packages</h3>
-            <div className="bg-gray-50 p-4 rounded-lg mb-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-gray-700 mb-2">Package </label>
-                  <input
-                    type="text"
-                    name="description"
-                    value={newCustomPackage.description}
-                    onChange={handleCustomPackageChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
-                    placeholder="Package name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-700 mb-2">Description</label>
-                  <textarea
-                    id="deliverables"
-                    name="deliverables"
-                    value={newCustomPackage.deliverables}
-                    onChange={handleCustomPackageChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
-                    placeholder="Package description">
-                  </textarea>
-                </div>
-                <div>
-                  <label className="block text-gray-700 mb-2">Quantity</label>
-                  <div className="flex items-center">
-                    <button 
-                      type="button" 
-                      className="text-gray-500 hover:text-[#d9b683] p-2"
-                      onClick={() => setNewCustomPackage(prev => ({ ...prev, quantity: Math.max(1, prev.quantity - 1) }))}
-                    >
-                      <FaMinus />
-                    </button>
-                    <input
-                      type="number"
-                      name="quantity"
-                      value={newCustomPackage.quantity}
-                      onChange={handleCustomPackageChange}
-                      className="w-16 text-center border border-gray-300 rounded mx-2 p-2"
-                      min="1"
-                    />
-                    <button 
-                      type="button" 
-                      className="text-gray-500 hover:text-[#d9b683] p-2"
-                      onClick={() => setNewCustomPackage(prev => ({ ...prev, quantity: prev.quantity + 1 }))}
-                    >
-                      <FaPlus />
-                    </button>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-gray-700 mb-2">Price (₦)</label>
-                  <input
-                    type="number"
-                    name="price"
-                    value={newCustomPackage.price}
-                    onChange={handleCustomPackageChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
-                    placeholder="0.00"
-                    min="0"
-                    step="0.01"
-                  />
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={addCustomPackage}
-                className="bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-2 px-4 rounded flex items-center"
-              >
-                <FaPlus className="mr-2" /> Add Custom Package
-              </button>
-            </div>
-
-            {/* Display added custom packages */}
-            {customPackages.length > 0 && (
-              <div className="space-y-3">
-                {customPackages.map(item => (
-                  <div key={item.id} className="border border-gray-200 rounded-lg p-4 flex justify-between items-center">
-                    <div>
-                      <h4 className="font-medium text-gray-800">{item.description}</h4>
-                      <p className="text-gray-600 text-sm mt-1 truncate max-w-20 sm:max-w-xs">{item.deliverables}</p>
-                      <p className="text-[#d9b683] font-bold">N{item.price.toLocaleString()} × {item.quantity}</p>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="flex items-center mr-4">
-                        <button 
-                          type="button" 
-                          className="text-gray-500 hover:text-[#d9b683]"
-                          onClick={() => updateCustomPackageQuantity(item.id, item.quantity - 1)}
-                        >
-                          <FaMinus />
-                        </button>
-                        <span className="mx-2 w-8 text-center">{item.quantity}</span>
-                        <button 
-                          type="button" 
-                          className="text-gray-500 hover:text-[#d9b683]"
-                          onClick={() => updateCustomPackageQuantity(item.id, item.quantity + 1)}
-                        >
-                          <FaPlus />
-                        </button>
-                      </div>
-                      <button 
-                        type="button" 
-                        className="text-red-500 hover:text-red-700"
-                        onClick={() => removeCustomPackage(item.id)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <h3 className="font-semibold text-gray-800 mb-3">Order Summary</h3>
             <div className="space-y-2">
@@ -669,12 +482,6 @@ const CreateBooking = () => {
               {selectedAddons.map(item => (
                 <div key={`addon-${item.id}`} className="flex justify-between">
                   <span>{item.name} × {item.quantity}</span>
-                  <span>N{(item.price * item.quantity).toLocaleString()}</span>
-                </div>
-              ))}
-              {customPackages.map(item => (
-                <div key={`custom-${item.id}`} className="flex justify-between">
-                  <span>{item.description} × {item.quantity}</span>
                   <span>N{(item.price * item.quantity).toLocaleString()}</span>
                 </div>
               ))}
@@ -696,7 +503,7 @@ const CreateBooking = () => {
             <button
               type="submit"
               className="bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-2 px-6 rounded flex items-center"
-              disabled={loading || (selectedPackages.length === 0 && selectedAddons.length === 0 && customPackages.length === 0)}
+              disabled={loading || (selectedPackages.length === 0 && selectedAddons.length === 0)}
             >
               {loading ? 'Processing...' : 'Complete Booking'} <FaCheck className="ml-2" />
             </button>
