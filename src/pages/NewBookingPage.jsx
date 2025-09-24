@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaCalendarAlt, FaMapMarkerAlt, FaUser, FaArrowRight, FaArrowLeft, FaCheck, FaPlus, FaMinus, FaTrash } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaUser, FaArrowRight, FaArrowLeft, FaCheck, FaPlus, FaMinus, FaTrash, FaPercent } from 'react-icons/fa';
 import { FiPackage } from 'react-icons/fi';
 import { useUser } from '../services/UserContext';
 import { fetchClientList, updateBookings } from '../services/Api';
@@ -24,7 +24,6 @@ const CreateBooking = () => {
   const [created, setCreated] =useState()
   const savedBooking = JSON.parse(localStorage.getItem('bookingData'));
 
-  
   // Form data
   const [formData, setFormData] = useState({
     client: user?.is_superuser ? savedBooking?.client  : user?.id ||'',
@@ -35,7 +34,7 @@ const CreateBooking = () => {
     additional_notes: savedBooking?.additional_notes||''
   });
 
-    // Store booking data returned from step 1
+  // Store booking data returned from step 1
   const [bookingData, setBookingData] = useState(null);
 
   // Invoice items
@@ -47,6 +46,13 @@ const CreateBooking = () => {
     deliverables: '',
     quantity: 1,
     price: ''
+  });
+
+  // Discount state
+  const [discount, setDiscount] = useState({
+    type: 'percentage', // 'percentage' or 'fixed'
+    value: 0,
+    description: ''
   });
 
   // Fetch users if admin
@@ -182,6 +188,25 @@ const CreateBooking = () => {
     }
   };
 
+  // Discount functions
+  const handleDiscountChange = (e) => {
+    const { name, value } = e.target;
+    setDiscount(prev => ({ 
+      ...prev, 
+      [name]: name === 'value' ? parseFloat(value) : value 
+    }));
+  };
+
+  const calculateDiscountAmount = (subtotal) => {
+    if (discount.value <= 0) return 0;
+    
+    if (discount.type === 'percentage') {
+      return (subtotal * discount.value) / 100;
+    } else {
+      return Math.min(discount.value, subtotal); // Don't allow discount more than subtotal
+    }
+  };
+
   const handleSubmitStep1 = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -224,6 +249,8 @@ const CreateBooking = () => {
     try {
       // Create invoice items for packages, addons, and custom packages
       localStorage.removeItem('bookingData')
+      
+      // Create all invoice items first
       await Promise.all([
         ...selectedPackages.map(item => 
           postInvoiceItem({
@@ -261,6 +288,26 @@ const CreateBooking = () => {
           })
         ),
       ]);
+
+      // Add discount as a separate invoice item if applied
+      if (discount.value > 0) {
+        const subtotal = [...selectedPackages, ...selectedAddons, ...customPackages].reduce(
+          (sum, item) => sum + (item.price * item.quantity), 0
+        );
+        const discountAmount = calculateDiscountAmount(subtotal);
+        
+        if (discountAmount > 0) {
+          await postInvoiceItem({
+            invoice: bookingData.id,
+            item_type: 'discount',
+            description: discount.description || `Discount applied`,
+            deliverables: discount.type === 'percentage' ? `${discount.value}% discount` : `₦${discount.value.toLocaleString()} discount`,
+            quantity: 1,
+            price: discountAmount, // Negative price for discount
+            is_taxable: false,
+          });
+        }
+      }
       
       // Redirect or show success message
       console.log(selectedPackages)
@@ -277,9 +324,12 @@ const CreateBooking = () => {
     }
   };
 
-  const totalAmount = [...selectedPackages, ...selectedAddons, ...customPackages].reduce(
+  const subtotalAmount = [...selectedPackages, ...selectedAddons, ...customPackages].reduce(
     (sum, item) => sum + (item.price * item.quantity), 0
   );
+
+  const discountAmount = calculateDiscountAmount(subtotalAmount);
+  const totalAmount = subtotalAmount - discountAmount;
 
   return (
   <>
@@ -657,6 +707,86 @@ const CreateBooking = () => {
             )}
           </div>
 
+          {/* Discount Section - Only for Superusers */}
+          {user?.is_superuser && (
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold mb-4 text-gray-800">Apply Discount</h3>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-gray-700 mb-2">Discount Type</label>
+                    <div className="flex space-x-4">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="type"
+                          value="percentage"
+                          checked={discount.type === 'percentage'}
+                          onChange={handleDiscountChange}
+                          className="mr-2"
+                        />
+                        Percentage (%)
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="type"
+                          value="fixed"
+                          checked={discount.type === 'fixed'}
+                          onChange={handleDiscountChange}
+                          className="mr-2"
+                        />
+                        Fixed Amount
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-gray-700 mb-2">
+                      {discount.type === 'percentage' ? 'Discount Percentage' : 'Discount Amount (₦)'}
+                    </label>
+                    <div className="flex items-center">
+                      <FaPercent className="text-gray-400 mr-2" />
+                      <input
+                        type="number"
+                        name="value"
+                        value={discount.value}
+                        onChange={handleDiscountChange}
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
+                        placeholder={discount.type === 'percentage' ? '0-100' : '0.00'}
+                        min="0"
+                        max={discount.type === 'percentage' ? '100' : undefined}
+                        step={discount.type === 'percentage' ? '1' : '0.01'}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 mb-2">Discount Description (Optional)</label>
+                  <input
+                    type="text"
+                    name="description"
+                    value={discount.description}
+                    onChange={handleDiscountChange}
+                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
+                    placeholder="e.g., Special promotion, Loyalty discount, etc."
+                  />
+                </div>
+                {discount.value > 0 && (
+                  <div className="p-3 bg-yellow-50 rounded border border-yellow-200">
+                    <p className="text-sm text-yellow-800">
+                      Discount will reduce the total by: <strong>
+                        {discount.type === 'percentage' 
+                          ? `${discount.value}% (₦${calculateDiscountAmount(subtotalAmount).toLocaleString()})`
+                          : `₦${discount.value.toLocaleString()}`
+                        }
+                      </strong>
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <h3 className="font-semibold text-gray-800 mb-3">Order Summary</h3>
             <div className="space-y-2">
@@ -679,6 +809,22 @@ const CreateBooking = () => {
                 </div>
               ))}
             </div>
+            
+            {/* Subtotal */}
+            <div className="border-t border-gray-200 mt-3 pt-3 flex justify-between">
+              <span>Subtotal</span>
+              <span>N{subtotalAmount.toLocaleString()}</span>
+            </div>
+            
+            {/* Discount */}
+            {discount.value > 0 && (
+              <div className="flex justify-between text-red-600">
+                <span>Discount {discount.type === 'percentage' ? `(${discount.value}%)` : ''}</span>
+                <span>-N{discountAmount.toLocaleString()}</span>
+              </div>
+            )}
+            
+            {/* Total */}
             <div className="border-t border-gray-200 mt-3 pt-3 font-bold text-lg flex justify-between">
               <span>Total</span>
               <span>N{totalAmount.toLocaleString()}</span>

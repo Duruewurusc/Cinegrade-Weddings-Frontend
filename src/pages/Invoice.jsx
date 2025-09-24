@@ -102,7 +102,7 @@ const Invoice = () => {
   }
 
   // Calculate totals
-  const totalAmount = invoiceItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalAmount = bookingData.total_amount;
   const totalPaid = bookingData.total_payments_made;
   const balanceDue = totalAmount - totalPaid;
 
@@ -182,11 +182,15 @@ const Invoice = () => {
                     <th className="py-3 px-4 text-left font-semibold text-gray-700 border-b">Description</th>
                     <th className="py-3 px-4 text-right font-semibold text-gray-700 border-b">Price</th>
                     <th className="py-3 px-4 text-right font-semibold text-gray-700 border-b">Qty</th>
-                    <th className="py-3 px-4 text-right font-semibold text-gray-700 border-b">Amount</th>
+                    <th className="py-3 px-4 text-right font-semibold text-gray-700 border-b">Total</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {invoiceItems.map((item, index) => (
+                  {invoiceItems .slice() // clone so we don’t mutate original
+                  .sort((a, b) => {
+                    if (a.item_type === 'discount' && b.item_type !== 'discount') return 1;
+                    if (a.item_type !== 'discount' && b.item_type === 'discount') return -1;
+                    return 0;}).map((item, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
                       <td className="py-3 px-4 border-b">
                         {item.description}
@@ -194,10 +198,10 @@ const Invoice = () => {
                         {item.item_type === 'package' && <span className="text-xs text-gray-500 ml-2">(Package)</span>}
                       </td>
                       <td className="py-3 px-4 text-left border-b">{item.deliverables}</td>
-                      <td className="py-3 px-4 text-right border-b">N{item.price.toLocaleString()}</td>
+                      <td className="py-3 px-4 text-right border-b">₦{item.item_type=='discount'? -item.price.toLocaleString():item.price.toLocaleString()}</td>
                       <td className="py-3 px-4 text-right border-b">{item.quantity}</td>
                       <td className="py-3 px-4 text-right border-b font-medium">
-                        N{(item.price * item.quantity).toLocaleString()}
+                        ₦{item.item_type=='discount'? (-item.price * item.quantity).toLocaleString():(item.price * item.quantity).toLocaleString()}
                       </td>
                     </tr>
                   ))}

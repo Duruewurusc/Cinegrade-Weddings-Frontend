@@ -69,10 +69,10 @@ export const UserProvider = ({ children }) => {
     fetchClientData();
   }, []);
 
-   const login = async (username, password) => {
+   const login = async (email, password) => {
         try {
           const response = await api.post('/auth/jwt/create/', {
-                username,
+                email,
                 password
             });
             

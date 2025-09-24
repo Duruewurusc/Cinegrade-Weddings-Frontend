@@ -46,7 +46,7 @@ export default function AuthForm() {
 
     try {
       if (isLogin) {
-        const result = await login(formData.username, formData.password);
+        const result = await login(formData.email, formData.password);
         if (!result.success) {
           setError(result.error);
           return;
@@ -141,13 +141,13 @@ export default function AuthForm() {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="sr-only">Email</label>
+                    <label htmlFor="username" className="sr-only">Email</label>
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
+                      id="username"
+                      name="username"
+                      type="text"
                       required
-                      placeholder="Email address"
+                      placeholder="Username"
                       onChange={handleChange}
                       className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-[#d9b683] focus:border-[#d9b683] focus:z-10 sm:text-sm"
                     />
@@ -182,13 +182,13 @@ export default function AuthForm() {
               )}
 
               <div>
-                <label htmlFor="username" className="sr-only">Username</label>
+                <label htmlFor="email" className="sr-only">Email</label>
                 <input
-                  id="username"
-                  name="username"
-                  type="text"
+                  id="email"
+                  name="email"
+                  type="email"
                   required
-                  placeholder="Username"
+                  placeholder="Email"
                   onChange={handleChange}
                   className="appearance-none relative block w-full px-3 py-2 border-b border-gray-300 placeholder-[#dbcab7] text-gray-900 focus:outline-none focus:ring-[#d9b683] focus:border-[#d9b683] focus:z-10 sm:text-sm"
                 />
