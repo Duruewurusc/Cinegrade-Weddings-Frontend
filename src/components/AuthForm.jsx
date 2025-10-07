@@ -48,7 +48,9 @@ export default function AuthForm() {
       if (isLogin) {
         const result = await login(formData.email, formData.password);
         if (!result.success) {
+          
           setError(result.error);
+          setMessage({ text: result.error, type: "error" });
           return;
         }
         navigate(booking ? "/dashboard/new-booking" : "/dashboard/bookings");

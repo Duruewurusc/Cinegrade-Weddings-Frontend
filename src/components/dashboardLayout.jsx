@@ -24,8 +24,9 @@ const adminNavItems = [
   { label: 'Upcoming Events', path: '/dashboard/upcoming-events', icon: <FaCalendarDay /> },
   { label: 'Customer List', path: '/dashboard/clientlist', icon: <FiUser /> },
   { label: 'Create Booking', path: '/dashboard/new-booking', icon: <FiPlus /> },
+  { label: 'Add Payment', path: '/dashboard/add-payment', icon: <FiPlus /> },
   { label: 'All Bookings', path: '/dashboard/bookings', icon: <FiList /> },
-  { label: 'All Payments', path: '/dashboard/payments', icon: <FiFileText /> },
+  { label: 'Payments Records', path: '/dashboard/payments', icon: <FiFileText /> },
   { label: 'Analytics', path: '/dashboard/analytics', icon: <FaChartBar /> },
 
 ]

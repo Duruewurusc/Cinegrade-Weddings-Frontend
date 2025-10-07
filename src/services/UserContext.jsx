@@ -9,6 +9,7 @@ const UserContext = createContext();
 
 
 
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,8 +18,9 @@ export const UserProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : null;
   })
   const [companyInfo, setCompanyInfo] = useState(null);
-
   // const navigate = useNavigate();
+
+ 
 
   useEffect(()=>{
     const fetchCompanyData = async () =>{
@@ -100,13 +102,15 @@ export const UserProvider = ({ children }) => {
             console.error("Login failed:", error);
             return { 
                 success: false, 
-                error: error.response?.data?.detail || 'Login failed' 
+                error: error.response?.data ?.detail || "An error occurred. Please try ."
+                
             };
         }
     };
 
     const logout = () => {
         // const navigate = useNavigate();
+        // navigate('/login');
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
         localStorage.removeItem('booking');
@@ -116,7 +120,7 @@ export const UserProvider = ({ children }) => {
         setIsAuthenticated(false);
         
         setBooking(null)
-        // navigate('/login');
+        
     };
     useEffect(() => {
     localStorage.setItem("booking", JSON.stringify(booking));
@@ -124,53 +128,55 @@ export const UserProvider = ({ children }) => {
 
 // Add this inside the AuthProvider component, before the return statement
 
-  useEffect(() => {
-    const requestInterceptor = axios.interceptors.request.use(
-        (config) => {
-            const token = localStorage.getItem('access');
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-            return config;
-        },
-        (error) => Promise.reject(error)
-    );
+//   useEffect(() => {
+//     const requestInterceptor = axios.interceptors.request.use(
+//         (config) => {
+//             console.log('Request made with config:', config);
+//             const token = localStorage.getItem('access');
+//             if (token) {
+//                 config.headers.Authorization = `Bearer ${token}`;
+//             }
+//             return config;
+//         },
+//         (error) => Promise.reject(error)
+//     );
 
-    const responseInterceptor = axios.interceptors.response.use(
-        (response) => response,
-        async (error) => {
-            const originalRequest = error.config;
+//     const responseInterceptor = axios.interceptors.response.use(
+//         (response) => response,
+//         async (error) => {
+//             const originalRequest = error.config;
             
-            if (error.response?.status === 401 && !originalRequest._retry) {
-                originalRequest._retry = true;
+//             if (error.response?.status === 401 && !originalRequest._retry) {
+//                 originalRequest._retry = true;
+//                 console.log('Attempting to refresh token...');
                 
-                try {
-                    const refreshToken = localStorage.getItem('refresh');
-                    const response = await api.post('/auth/jwt/refresh/', {
-                        refresh: refreshToken
-                    });
+//                 try {
+//                     const refreshToken = localStorage.getItem('refresh');
+//                     const response = await api.post('/auth/jwt/refresh/', {
+//                         refresh: refreshToken
+//                     });
                     
-                    const { access } = response.data;
-                    localStorage.setItem('access', access);
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-                    originalRequest.headers['Authorization'] = `Bearer ${access}`;
+//                     const { access } = response.data;
+//                     localStorage.setItem('access', access);
+//                     axios.defaults.headers.common['Authorization'] = `Bearer ${access}`;
+//                     originalRequest.headers['Authorization'] = `Bearer ${access}`;
                     
-                    return axios(originalRequest);
-                } catch (refreshError) {
-                    logout();
-                    return Promise.reject(refreshError);
-                }
-            }
+//                     return axios(originalRequest);
+//                 } catch (refreshError) {
+//                     logout();
+//                     return Promise.reject(refreshError);
+//                 }
+//             }
             
-            return Promise.reject(error);
-        }
-    );
+//             return Promise.reject(error);
+//         }
+//     );
 
-    return () => {
-        axios.interceptors.request.eject(requestInterceptor);
-        axios.interceptors.response.eject(responseInterceptor);
-    };
-}, [logout]);
+//     return () => {
+//         axios.interceptors.request.eject(requestInterceptor);
+//         axios.interceptors.response.eject(responseInterceptor);
+//     };
+// }, [logout]);
 
 
 

@@ -10,6 +10,7 @@ import Navbar from '../components/Navbar';
 import { useUser } from '../services/UserContext';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/dashboardLayout';
+import api from '../services/Api';
 
 
 
@@ -48,7 +49,7 @@ const CustomerProfile = () => {
         const token = localStorage.getItem("access");
         const config = { headers: { Authorization: `Bearer ${token}` } };
         // Replace with actual API call
-        const response = await axios.get(admin?`http://127.0.0.1:8000/api/users/${id}/`:"http://127.0.0.1:8000/auth/users/me/", config);
+        const response = await api.get(admin?`/api/users/${id}/`:"/auth/users/me/", config);
         console.log(user)
 
         // if (!response.ok) {

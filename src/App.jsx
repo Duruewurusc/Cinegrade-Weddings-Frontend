@@ -25,6 +25,7 @@ import Blog from './pages/Blog';
 import LinksPage from './pages/Links';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPasswordConfirm from './pages/ResetPasswordConfirm';
+import PaymentForm from './pages/PaymentForm';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -42,8 +43,7 @@ function App() {
           <Route path="/login" element={<Login/>}></Route>
           <Route path="/blog" element={<Blog/>}></Route>
           <Route path="/forgot-password" element={<ForgotPassword/>}></Route>
-          <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />}
-        />
+          <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />}/>
 
           <Route path="/dashboard/upcoming-events" element={<BookingManagement />}></Route>
           <Route path="/dashboard/new-booking" element={<NewBookingPage />}></Route>
@@ -54,7 +54,7 @@ function App() {
           <Route path="/dashboard/clientlist/new" element={<CreateClient/>}></Route>
           <Route path="/dashboard/clientlist/:id" element={<CustomerProfile/>}></Route>
 
-
+          <Route path="/dashboard/add-payment" element={<PaymentForm/>}></Route>
           <Route path="/dashboard/payments" element={<ClientPaymentsViewPage/>}></Route>
           <Route path="/dashboard/invoice/:id" element={<Invoice/>}></Route>
           <Route path="/bookings/edit/:id" element={<EditBookingPage />} />

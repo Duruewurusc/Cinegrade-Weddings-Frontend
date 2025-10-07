@@ -8,6 +8,7 @@ import axios from 'axios';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/dashboardLayout';
+import api from '../services/Api';
 
 const CreateClient = () => {
   const navigate = useNavigate();
@@ -68,10 +69,7 @@ const CreateClient = () => {
       const { confirm_password, ...clientData } = formData;
 
       // Make API call to create new client
-      const response = await axios.post(
-        'http://127.0.0.1:8000/api/users/',
-        clientData,
-        config
+      const response = await api.post('/api/users/', clientData,config
       );
 
       if (response.status === 201) {
@@ -211,7 +209,7 @@ const CreateClient = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-600 mb-1">Email</label>
+                    <label className="block text-gray-600 mb-1">Email *</label>
                     <input
                       type="email"
                       name="email"

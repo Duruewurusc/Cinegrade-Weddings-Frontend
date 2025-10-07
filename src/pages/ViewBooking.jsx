@@ -25,9 +25,23 @@ const ViewEditBooking = ({ currentUser }) => {
   const [isEditing, setIsEditing] = useState(false);
   const { user } = useUser();
   const [payments, setPayments] = useState([]);
+  const [customPackage, setCustomPackage] = useState({
+      description: '',
+      deliverables: '',
+      quantity: 1,
+      price: ''
+    });
 
 
   // Form data
+  const formatDate = (dateString) => {
+  const date = new Date(dateString); // expects YYYY-MM-DD or valid parseable date
+  return date.toLocaleDateString("en-US", {
+    month: "short", // "Sep"
+    day: "numeric", // 11
+    year: "numeric", // 2025
+  });
+};
   const [formData, setFormData] = useState({
     client: user?.is_superuser ? '' : user?.id,
     event_type: '',
@@ -43,6 +57,7 @@ const ViewEditBooking = ({ currentUser }) => {
   // Invoice items
   const [selectedPackages, setSelectedPackages] = useState([]);
   const [selectedAddons, setSelectedAddons] = useState([]);
+  const [selectedCustomPackage, setSelectedCustomPackage] = useState({})
   const [existingInvoiceItems, setExistingInvoiceItems] = useState([]);
   const [discount, setDiscount] = useState({});
   
@@ -80,6 +95,7 @@ const ViewEditBooking = ({ currentUser }) => {
         // Separate packages and addons
         const packageItems = items.filter(item => item.item_type === 'package');
         const addonItems = items.filter(item => item.item_type === 'addon');
+        const customItems = items.filter(item => item.item_type === 'other');
         const discountItems = items.filter(item => item.item_type === 'discount');
         const totalDiscount = discountItems.reduce((sum, item) => sum + parseFloat(item.price || 0), 0);
 
@@ -104,10 +120,19 @@ const ViewEditBooking = ({ currentUser }) => {
           quantity: item.quantity
         })));
 
+        setSelectedCustomPackage(customItems.map(item => ({
+          id: item.package,
+          package_name: item.description,
+          description: item.item_type,
+          deliverables: item.deliverables,
+          price: item.price,
+          quantity: item.quantity
+        })));
+
         setDiscount({
           id: '',
           name: 'Discount',
-          description: '',
+          description: discountItems[0].description + 'Discount' || 'Discount',
           price: totalDiscount,
           quantity: 1,
           is_discount: true,
@@ -916,9 +941,10 @@ const ViewEditBooking = ({ currentUser }) => {
                 
                 <div className="space-y-6">
                   {/* Packages Section */}
+                  {selectedPackages.length > 0 && (
                   <div>
                     <h3 className="text-lg font-medium text-gray-800 mb-3">Packages</h3>
-                    {selectedPackages.length > 0 ? (
+                    
                       <div className="space-y-3">
                         {console.log(selectedPackages)}
                         {selectedPackages.map(item => (
@@ -936,15 +962,14 @@ const ViewEditBooking = ({ currentUser }) => {
                           </div>
                         ))}
                       </div>
-                    ) : (
-                      <p className="text-gray-500 italic">No packages selected</p>
-                    )}
-                  </div>
+                    
+                  </div>) }
 
                   {/* Addons Section */}
+                  {selectedAddons.length > 0 && (
                   <div>
                     <h3 className="text-lg font-medium text-gray-800 mb-3">Addons</h3>
-                    {selectedAddons.length > 0 ? (
+                    
                       <div className="space-y-3">
                         {selectedAddons.map(item => (
                           <div key={`addon-${item.id}`} className="border rounded-lg p-4 bg-gray-50">
@@ -961,10 +986,33 @@ const ViewEditBooking = ({ currentUser }) => {
                           </div>
                         ))}
                       </div>
-                    ) : (
-                      <p className="text-gray-500 italic">No addons selected</p>
-                    )}
-                  </div>
+                    
+                  </div>)}
+
+                  {/* Custom Packages Section */}
+                  {selectedCustomPackage.length > 0 && (
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-800 mb-3">Custom Packages</h3>
+                    
+                      <div className="space-y-3">
+                        {console.log(selectedPackages)}
+                        {selectedCustomPackage.map(item => (
+                          <div key={`pkg-${item.id}`} className="border rounded-lg p-4 bg-gray-50">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h4 className="font-medium text-gray-800">{item.package_name}</h4>
+                                <p className="text-gray-600 text-sm mt-1">{item.deliverables}</p>
+                              </div>
+                              <div className="text-right">
+                                <span className="text-gray-600 text-sm">Qty: {item.quantity}</span>
+                                <p className="text-[#d9b683] font-bold mt-1">N{(item.price * item.quantity).toLocaleString()}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    
+                  </div>) }
 
                   {/* Discount */}
                   
@@ -1037,7 +1085,7 @@ const ViewEditBooking = ({ currentUser }) => {
                           {payments.map(payment => (
                             <div key={payment.id} className="flex justify-between">
                               <span className="text-gray-700">
-                                {new Date(payment.payment_date).toLocaleDateString()}
+                                {formatDate(payment.payment_date)}
                               </span>
                               <span className="font-medium">N{(payment.amount_paid).toLocaleString()}</span>
                             </div>
@@ -1064,7 +1112,21 @@ const ViewEditBooking = ({ currentUser }) => {
               </div>
 
               {/* View Invoice Button */}
-              <div className="flex justify-end">
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  onClick={() => navigate('/dashboard/bookings')}
+                  className="bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-2 px-6 rounded flex items-center transition-colors"
+                >
+                  <FaArrowLeft className="ml-2" />  Back
+                </button>
+                {user?.is_superuser && (<button
+                  type="button"
+                  onClick={() => navigate(`/dashboard/invoice/${id}`)}
+                  className="bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-2 px-6 rounded flex items-center transition-colors"
+                >
+                  Record Payment 
+                </button>)}
                 <button
                   type="button"
                   onClick={() => navigate(`/dashboard/invoice/${id}`)}

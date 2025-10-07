@@ -91,8 +91,13 @@ const ClientBookingPage = () => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString();
-  };
+  const date = new Date(dateString); // expects YYYY-MM-DD or valid parseable date
+  return date.toLocaleDateString("en-US", {
+    month: "short", // "Sep"
+    day: "numeric", // 11
+    year: "numeric", // 2025
+  });
+};
 
   const resetFilters = () => {
     setSearchTerm('');

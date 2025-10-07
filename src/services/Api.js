@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export const api = axios.create({
-  baseURL: 'https://cgapi-8nul.onrender.com'
+  // baseURL: 'https://cgapi-8nul.onrender.com'
   //'http://127.0.0.1:8000/',
-  // baseURL: 'http://127.0.0.1:8000/',
+  baseURL: 'http://127.0.0.1:8000/',
  
   
 });
@@ -44,6 +44,13 @@ export const postBookings = async (bookingData) =>{
   return bookingResponse.data
 }
 
+export const createPayment = async (paymentData) =>{
+  const token = localStorage.getItem("access");
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const response = await api.post('/api/payments/',paymentData, config);
+  return response.data
+}
+
 export const updateBookings = async (id, bookingData) =>{
   const token = localStorage.getItem("access");
   const config = { headers: { Authorization: `Bearer ${token}` } };
@@ -58,6 +65,13 @@ export const deleteBookings = async (id) =>{
   return bookingResponse.data
 }
 
+
+export const updatePayment = async (id, paymentData) =>{
+  const token = localStorage.getItem("access");
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const response = await api.put(`/api/payments/${id}/`, paymentData, config);
+  return response.data
+}
 
 export const fetchCompanyInfo = async () =>{
   const response = await api.get('/api/companyinfo/');
@@ -147,32 +161,67 @@ export const fetchPayments = async (paymentId = null) => {
   return bookingResponse.data;
 }
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token'); // Or your token storage
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+
+
+
+// Request interceptor → attach token
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("access");
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`;
+    // console.log("🔑 Attached access token:", token);
+  } else {
+    console.log("⚠️ No access token found in localStorage");
+  }
+  return config;
+});
+
+// Response interceptor → handle 401
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      console.log("⛔ Access token expired or invalid. Trying refresh...");
+      originalRequest._retry = true;
+
+      try {
+        const refresh = localStorage.getItem("refresh");
+        console.log("🔄 Refresh token:", refresh);
+
+        if (!refresh) {
+          console.log("⚠️ No refresh token found, logging out...");
+          throw new Error("No refresh token");
+        }
+
+        // Request new access token
+        const res = await api.post("/auth/jwt/refresh/", {
+          refresh: refresh,
+        });
+
+        const newAccess = res.data.access;
+        console.log("✅ Got new access token:", newAccess);
+
+        localStorage.setItem("access", newAccess);
+
+        // Retry the failed request
+        originalRequest.headers["Authorization"] = `Bearer ${newAccess}`;
+        return api(originalRequest);
+      } catch (refreshError) {
+        console.log("❌ Refresh failed, logging out:", refreshError);
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        window.location.href = "/login";
+      }
     }
-    return config;
-  },
-  (error) => {
+
     return Promise.reject(error);
   }
 );
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      // Redirect to login when 401 occurs
-      const navigate = useNavigate();
-      navigate('/login');
-      // You might also want to clear any user data here
-      localStorage.removeItem('authToken');
-    }
-    return Promise.reject(error);
-  }
-);
+
+
 
 
 
