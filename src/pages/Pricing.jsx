@@ -148,7 +148,7 @@ const Pricing = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/100 bg-opacity-40  py-5 z-0">
                     <div className='absolute bottom-30 md:bottom-40 right-0 left-0 flex flex-col items-center justify-center'>
                     <h1 className="font-serif font-bold text-2xl md:text-6xl lg:text-7xl  tracking-tight text-white mb-4">Packages & Pricing</h1> 
-                    <p className="text-sm md:text-xl text-[#e0e0e0]">Affordable Wedding Photgraphy and Videography pricing</p></div>
+                    <p className="px-4 text-sm md:text-xl text-[#e0e0e0] text-center">Affordable Wedding Photgraphy and Videography pricing</p></div>
                 </div>
                 
             </motion.div>
@@ -166,7 +166,7 @@ const Pricing = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className='text-[#5e5e5e] w-90 md:w-250 xl:w-300 text-sm md:text-xl text-left mb-4 py-1 md:py-10 mx-auto'
+                    className='text-[#5e5e5e] w-90 md:w-250 xl:w-300 text-sm md:text-xl text-left mb-4 py-1 md:py-10 px-4 mx-auto'
                 >
                 At CineGRADE Weddings, we offer customizable wedding photography and videography packages for every budget—from intimate elopements 
                 to grand celebrations. Whether you need photos, video, or both, our affordable wedding photo and video packages ensure every moment
