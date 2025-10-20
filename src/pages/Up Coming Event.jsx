@@ -243,9 +243,9 @@ const BookingManagement = () => {
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Status
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Amount
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -295,11 +295,11 @@ const BookingManagement = () => {
                           {getDeliveryStatus(booking.delivery_status)}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-center">
+                      {/* <td className="px-6 py-4 whitespace-nowrap text-center">
                         <div className="text-sm font-semibold text-[#d9b683]">
                           ₦{parseFloat(booking.amount_due || 0).toLocaleString()}
                         </div>
-                      </td>
+                      </td> */}
                     </tr>
                   )))}
                 </tbody>

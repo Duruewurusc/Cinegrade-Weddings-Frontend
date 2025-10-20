@@ -31,7 +31,9 @@ const CreateBooking = () => {
     event_description: savedBooking?.event_description ||'',
     wedding_date: savedBooking?.wedding_date || '',
     location: savedBooking?.location ||'',
-    additional_notes: savedBooking?.additional_notes||''
+    additional_notes: savedBooking?.additional_notes||'',
+    packages: [],
+    addons: []
   });
 
   // Store booking data returned from step 1
@@ -220,8 +222,10 @@ const CreateBooking = () => {
         setStep(2)
       }
       else {
+        console.log(formData)
       
         const data = await postBookings(formData)
+        console.log(data)
     
         if (data) {
           setBookingData(data)
@@ -411,6 +415,8 @@ const CreateBooking = () => {
               <option value="White Wedding">White Wedding</option>
               <option value="Traditional Marriage">Traditional Marriage</option>
               <option value="Prewedding Shoot">Prewedding Shoot</option>
+              <option value="Burial">Burial</option>
+              <option value="Birthday">Birthday</option>
               <option value="Others">Others</option>
             </select>
           </div>

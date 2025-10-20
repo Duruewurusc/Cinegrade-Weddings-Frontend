@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export const api = axios.create({
-  // baseURL: 'https://cgapi-8nul.onrender.com'
+  baseURL: 'https://cgapi-8nul.onrender.com'
   //'http://127.0.0.1:8000/',
-  baseURL: 'http://127.0.0.1:8000/',
+  // baseURL: 'http://127.0.0.1:8000/',
  
   
 });
@@ -38,9 +38,12 @@ export const fetchBookings = async (bookingId = null) => {
 
 
 export const postBookings = async (bookingData) =>{
+  
   const token = localStorage.getItem("access");
   const config = { headers: { Authorization: `Bearer ${token}` } };
+  console.log(token)
   const bookingResponse = await api.post('/api/bookings/',bookingData, config);
+  console.log(bookingData)
   return bookingResponse.data
 }
 

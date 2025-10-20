@@ -6,7 +6,12 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(),
     tailwindcss(),
+    
   ],
+  build: {
+    outDir: 'build',
+  },
+  publicDir: 'public', // ensures everything inside /public is copied
   server: {
     host: true
   }
