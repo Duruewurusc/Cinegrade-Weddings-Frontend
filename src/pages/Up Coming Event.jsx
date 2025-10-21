@@ -38,7 +38,7 @@ const BookingManagement = () => {
     const upcoming = bookings.filter(booking => {
       const eventDate = new Date(booking.wedding_date);
       return eventDate >= today;
-    });
+    }).sort((a, b) => new Date(a.wedding_date) - new Date(b.wedding_date));
     
     const filtered = upcoming.filter(booking => 
       (booking.client?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
