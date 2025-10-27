@@ -204,7 +204,7 @@ const ClientsList = () => {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                navigate(`/dashboard/clientlist/${client.id}/edit`);
+                                navigate(`/dashboard/clientlist/${client.id}?edit=true`);
                               }}
                               className="p-2 text-gray-400 hover:text-yellow-600 hover:bg-yellow-50 rounded-xl transition-all duration-300"
                               title="Edit"
@@ -344,7 +344,7 @@ const ClientsList = () => {
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    navigate(`/dashboard/clientlist/${client.id}/edit`);
+                                    navigate(`/dashboard/clientlist/${client.id}?edit=true`);
                                   }}
                                   className="p-2 text-gray-400 hover:text-yellow-600 hover:bg-yellow-50 rounded-xl transition-all duration-300"
                                   title="Edit"

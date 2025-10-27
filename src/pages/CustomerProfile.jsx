@@ -11,11 +11,13 @@ import { useUser } from '../services/UserContext';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../components/dashboardLayout';
 import api from '../services/Api';
+import { useSearchParams } from "react-router-dom";
 
 
 
 const CustomerProfile = () => {
   // State management
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate()
   const {user} = useUser()
   const { id } = useParams();
@@ -40,8 +42,10 @@ const CustomerProfile = () => {
   const [admin, setAdmin] = useState(user?.is_superuser)
 
   // Fetch customer data
-//   console.log('is admin?'+user?.is_superuser)
-    console.log(admin)
+  useEffect(() => {
+    setIsEditing(searchParams.get("edit") === "true");
+  }, [searchParams]);
+
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
@@ -94,31 +98,31 @@ const CustomerProfile = () => {
   };
 
   // Save edited data
-  const handleSave = async () => {
-    try {
-      setLoading(true);
-      // Replace with actual API call
-      const response = await fetch('https://api.example.com/customers/1', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editForm)
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to update customer data');
-      }
-      
-      const updatedData = await response.json();
-      setCustomer(updatedData);
+const handleSave = async () => {
+  try {
+    setLoading(true);
+    const token = localStorage.getItem("access");
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+
+    console.log(editForm);
+
+    const response = await api.patch(`/api/users/${id}/`, editForm, config);
+
+    // ✅ Axios automatically parses JSON
+    if (response.status >= 200 && response.status < 300) {
+      setCustomer(response.data);
       setIsEditing(false);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } else {
+      throw new Error('Failed to update customer data');
     }
-  };
+
+  } catch (err) {
+    console.error("Update error:", err.response?.data || err.message);
+    setError(err.response?.data?.detail || err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Format dates for display
   const formatDate = (dateString) => {
