@@ -240,7 +240,19 @@ const ClientBookingPage = () => {
                           <tr key={booking.id}  className="border-b border-gray-200 hover:bg-gray-50">
                             <td className="py-3 px-4" onClick={() => handleViewReciept(booking.id)}>{booking.booking_code}<div className='font-semibold'>{booking.client_name}</div></td>
                             <td className="py-3 px-4">{booking.event_type || 'N/A'}</td>
-                            <td className="py-3 px-4">{formatDate(booking.wedding_date)}</td>
+                            
+                            <td className="py-3 px-4">
+                              {booking.event_dates && booking.event_dates.length > 0 ? (
+                                <div className="flex flex-col space-y-1">
+                                  {booking.event_dates.map((ed) => (
+                                    <span key={ed.id}>{formatDate(ed.date)}</span>
+                                  ))}
+                                </div>
+                              ) : (
+                                <span>{formatDate(booking.wedding_date)}</span>
+                              )}
+                            </td>
+
                             <td className="py-3 px-4">{booking.location}</td>
                             <td className="py-3 px-4 font-medium">
                               {formatToNaira(booking.total_amount)}
@@ -299,7 +311,15 @@ const ClientBookingPage = () => {
                             </div>
                             <div>
                               <p className="text-sm text-gray-500">Date</p>
-                              <p>{formatDate(booking.wedding_date)}</p>
+                            <div className="flex flex-col space-y-1">
+                              {booking.event_dates && booking.event_dates.length > 0 ? (
+                                booking.event_dates.map((ed) => (
+                                  <span key={ed.id}>{formatDate(ed.date)}</span>
+                                ))
+                              ) : (
+                                <span>{formatDate(booking.wedding_date)}</span>
+                              )}
+                            </div>
                             </div>
                             <div>
                               <p className="text-sm text-gray-500">Location</p>

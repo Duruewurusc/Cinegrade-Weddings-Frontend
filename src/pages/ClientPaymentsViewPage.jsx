@@ -196,7 +196,7 @@ const ClientPaymentsViewPage = () => {
           
           {payments.length === 0 ? (
             <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
-              <p>You have no bookings yet.</p>
+              <p>No payments yet.</p>
             </div>
           ) : (
             <>

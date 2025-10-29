@@ -20,6 +20,7 @@ const CreateClient = () => {
     phone: '',
     address: '',
     instagram_handle: '',
+    birthday: null,
     spouse_name: '',
     spouse_phone: '',
     spouse_email: '',
@@ -224,9 +225,19 @@ const CreateClient = () => {
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      rows="3"
+                      rows="4"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
                     ></textarea>
+                  </div>
+                  <div>
+                    <label className="block text-gray-600 mb-1 pt-2">Birthday</label>
+                    <input
+                      type="date"
+                      name="birthday"
+                      value={formData.birthday}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
+                    />
                   </div>
                 </div>
 

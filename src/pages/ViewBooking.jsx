@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaCalendarAlt, FaMapMarkerAlt, FaUser, FaArrowRight, FaArrowLeft, FaCheck, FaPlus, FaMinus, FaEdit, FaSave, FaMoneyBillWave } from 'react-icons/fa';
+import { FaCalendarAlt, FaTrash, FaMapMarkerAlt, FaUser, FaArrowRight, FaArrowLeft, FaCheck, FaPlus, FaMinus, FaEdit, FaSave, FaMoneyBillWave } from 'react-icons/fa';
 import { FiPackage } from 'react-icons/fi';
 import { useUser } from '../services/UserContext';
 import { fetchClientList } from '../services/Api';
@@ -46,7 +46,8 @@ const ViewEditBooking = ({ currentUser }) => {
     client: user?.is_superuser ? '' : user?.id,
     event_type: '',
     event_description: '',
-    wedding_date: '',
+    // wedding_date: '',
+    event_dates:[{ date: '' }],
     location: '',
     additional_notes: ''
   });
@@ -519,12 +520,13 @@ const ViewEditBooking = ({ currentUser }) => {
                     value={formData.event_type}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
-                    required
+                    
                   >
                     <option value="">Select event type</option>
                     <option value="White Wedding">White Wedding</option>
                     <option value="Traditional Marriage">Traditional Marriage</option>
                     <option value="Prewedding Shoot">Prewedding Shoot</option>
+                    <option value="Birthday">Birthday</option>
                     <option value="">Other</option>
                   </select>
               </div>
@@ -543,20 +545,53 @@ const ViewEditBooking = ({ currentUser }) => {
                     placeholder="Describe your event"
                   /></div>
 
-              <div className="mb-4">
-                <label className="block text-gray-700 mb-2" htmlFor="wedding_date">
-                  <FaCalendarAlt className="inline mr-2 text-[#d9b683]" />
-                  Event Date
-                </label>
-              
-                  <input
-                    type="date"
-                    id="wedding_date"
-                    name="wedding_date"
-                    value={formData.wedding_date}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
-                  /></div>
+              {/* Multiple Event Dates Section */}
+<div className="mb-4">
+  <label className="block text-gray-700 mb-2">
+    <FaCalendarAlt className="inline mr-2 text-[#d9b683]" />
+    Event Dates
+  </label>
+
+  {formData.event_dates?.map((eventDate, index) => (
+    <div key={index} className="flex items-center mb-2">
+      <input
+        type="date"
+        name={`event_date_${index}`}
+        value={eventDate.date}
+        onChange={(e) => {
+          const updatedDates = [...formData.event_dates];
+          updatedDates[index].date = e.target.value;
+          setFormData((prev) => ({ ...prev, event_dates: updatedDates }));
+        }}
+        className="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
+        required
+      />
+      <button
+        type="button"
+        onClick={() => {
+          const updatedDates = formData.event_dates.filter((_, i) => i !== index);
+          setFormData((prev) => ({ ...prev, event_dates: updatedDates }));
+        }}
+        className="ml-2 text-red-500 hover:text-red-700"
+      >
+        <FaTrash />
+      </button>
+    </div>
+  ))}
+
+  <button
+    type="button"
+    onClick={() =>
+      setFormData((prev) => ({
+        ...prev,
+        event_dates: [...(prev.event_dates || []), { date: '' }],
+      }))
+    }
+    className="mt-2 bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-1 px-4 rounded flex items-center"
+  >
+    <FaPlus className="mr-2" /> Add Date
+  </button>
+</div>
 
               <div className="mb-4">
                 <label className="block text-gray-700 mb-2" htmlFor="location">
