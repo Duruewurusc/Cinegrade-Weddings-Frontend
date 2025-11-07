@@ -247,7 +247,7 @@ const BookingManagement = () => {
                              <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center mb-2">
                               <FiCalendar className="mr-2 text-[#d9b683] flex-shrink-0" />
-                              <span className="text-sm text-gray-900">{formatDate(ev.date)}</span>
+                              <span className="text-sm font-semibold text-gray-900">{formatDate(ev.date)}</span>
                             </div>
                             <div className="flex items-center">
                               <FiMapPin className="mr-2 text-[#d9b683] flex-shrink-0" />
@@ -258,7 +258,7 @@ const BookingManagement = () => {
                             <div className="flex items-center">
                               {getEventIcon(ev.event_type)}
                               <div className="ml-3 lg:ml-4">
-                                <div className="text-lg font-semibold text-gray-900">{ev.event_type}</div>
+                                <div className="text-sm text-gray-900">{ev.event_type}</div>
                                 <div className="text-sm text-gray-500">#{ev.booking_code}</div>
                               </div>
                             </div>
