@@ -412,7 +412,7 @@ const CreateBooking = () => {
               required
             >
               <option value="">Select event type</option>
-              <option value="White Wedding">White Wedding</option>
+              <option value="Wedding">Wedding</option>
               <option value="Traditional Marriage">Traditional Marriage</option>
               <option value="Prewedding Shoot">Prewedding Shoot</option>
               <option value="Burial">Burial</option>
