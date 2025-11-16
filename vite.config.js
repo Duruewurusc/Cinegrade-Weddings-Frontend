@@ -8,9 +8,9 @@ export default defineConfig({
     tailwindcss(),
     
   ],
-  // build: {
-  //   outDir: 'build',
-  // },
+  build: {
+    outDir: 'public_html', // specify the output directory for built files
+  },
   publicDir: 'public', // ensures everything inside /public is copied
   server: {
     host: true
