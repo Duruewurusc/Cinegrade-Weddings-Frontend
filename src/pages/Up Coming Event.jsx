@@ -32,7 +32,7 @@ const BookingManagement = () => {
             event_type: booking.event_type,
             booking_code: booking.booking_code,
             client_name: booking.client_name,
-            location: booking.location,
+            location: ed.date_location || booking.location,
             payment_status: booking.payment_status,
             delivery_status: booking.delivery_status,
             event_description: booking.event_description,
