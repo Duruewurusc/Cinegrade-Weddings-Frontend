@@ -655,70 +655,80 @@ const ViewEditBooking = ({ currentUser }) => {
                       />
                     </div>
 
-                    {/* Multiple Event Dates */}
-                    <div className="mb-4">
-                      <label className="block text-gray-700 mb-2">
-                        <FaCalendarAlt className="inline mr-2 text-[#d9b683]" />
-                        Event Dates
-                      </label>
+              {/* Multiple Event Dates + Locations */}
+              <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-medium mb-3">
+                  <FaCalendarAlt className="inline mr-2 text-[#d9b683]" />
+                  Event Dates & Locations
+                </label>
 
-                      {formData.event_dates?.map((eventDate, index) => (
-                        <div key={index} className="flex items-center mb-2">
-                          <input
-                            type="date"
-                            name={`event_date_${index}`}
-                            value={eventDate.date || ''}
-                            onChange={(e) => {
-                              const updatedDates = [...formData.event_dates];
-                              updatedDates[index].date = e.target.value;
-                              setFormData((prev) => ({ ...prev, event_dates: updatedDates }));
-                            }}
-                            className="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
-                            required
-                          />
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const updatedDates = formData.event_dates.filter((_, i) => i !== index);
-                              setFormData((prev) => ({ ...prev, event_dates: updatedDates }));
-                            }}
-                            className="ml-2 text-red-500 hover:text-red-700"
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      ))}
+                <div className="space-y-3">
+                  {formData.event_dates?.map((eventDate, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col md:flex-row items-center gap-3 p-4 border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition-shadow duration-200"
+                    >
+                      {/* Date Input */}
+                      <div className="flex-1 w-full">
+                        <input
+                          type="date"
+                          value={eventDate.date}
+                          onChange={(e) => {
+                            const updated = [...formData.event_dates];
+                            updated[index].date = e.target.value;
+                            setFormData((prev) => ({ ...prev, event_dates: updated }));
+                          }}
+                          className="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#d9b683] focus:border-transparent transition-colors duration-200 bg-white"
+                          required
+                        />
+                      </div>
 
+                      {/* Location Input */}
+                      <div className="flex-1 w-full">
+                        <input
+                          type="text"
+                          value={eventDate.location || ""}
+                          placeholder="Enter location..."
+                          onChange={(e) => {
+                            const updated = [...formData.event_dates];
+                            updated[index].location = e.target.value;
+                            setFormData((prev) => ({ ...prev, event_dates: updated }));
+                          }}
+                          className="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#d9b683] focus:border-transparent transition-colors duration-200 placeholder-gray-400"
+                          required
+                        />
+                      </div>
+
+                      {/* Delete Button */}
                       <button
                         type="button"
-                        onClick={() =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            event_dates: [...(prev.event_dates || []), { date: '' }]
-                          }))
-                        }
-                        className="mt-2 bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-1 px-4 rounded flex items-center"
+                        onClick={() => {
+                          const updatedDates = formData.event_dates.filter((_, i) => i !== index);
+                          setFormData((prev) => ({ ...prev, event_dates: updatedDates }));
+                        }}
+                        className="p-3 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200 flex-shrink-0"
+                        title="Remove date"
                       >
-                        <FaPlus className="mr-2" /> Add Date
+                        <FaTrash className="text-sm" />
                       </button>
                     </div>
+                  ))}
+                </div>
 
-                    <div className="mb-4">
-                      <label className="block text-gray-700 mb-2" htmlFor="location">
-                        <FaMapMarkerAlt className="inline mr-2 text-[#d9b683]" />
-                        Location
-                      </label>
-                      <input
-                        type="text"
-                        id="location"
-                        name="location"
-                        value={formData.location}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#d9b683]"
-                        placeholder="Event venue address"
-                        required
-                      />
-                    </div>
+                {/* Add Date Button */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      event_dates: [...prev.event_dates, { date: "", location: "" }],
+                    }))
+                  }
+                  className="mt-4 bg-[#d9b683] hover:bg-[#c9a673] text-white font-semibold py-2 px-6 rounded-sm flex items-center justify-center transition-all duration-200 shadow-sm hover:shadow-md"
+                >
+                  <FaPlus className="mr-2" /> Add Date & Location
+                </button>
+              </div>
 
                     <div className="mb-6">
                       <label className="block text-gray-700 mb-2" htmlFor="additional_notes">
