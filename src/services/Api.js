@@ -58,7 +58,7 @@ export const createPayment = async (paymentData) =>{
 export const updateBookings = async (id, bookingData) =>{
   const token = localStorage.getItem("access");
   const config = { headers: { Authorization: `Bearer ${token}` } };
-  const bookingResponse = await api.put(`/api/bookings/${id}/`, bookingData, config);
+  const bookingResponse = await api.patch(`/api/bookings/${id}/`, bookingData, config);
   return bookingResponse.data
 }
 

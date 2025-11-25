@@ -7,6 +7,8 @@ import { FaBirthdayCake, FaGlassCheers, FaCameraRetro } from 'react-icons/fa';
 import { fetchBookings } from '../services/Api';
 import Navbar from '../components/Navbar';
 import DashboardLayout from '../components/dashboardLayout';
+import { useNavigate } from 'react-router-dom';
+
 
 const BookingManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,6 +18,9 @@ const BookingManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const today = new Date();
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -222,63 +227,60 @@ const BookingManagement = () => {
               />
             </div>
 
-            {/* Desktop Table */}
-            <div className="hidden lg:block bg-white shadow-lg rounded-xl overflow-hidden">
+             {/* Desktop Table - More Compact */}
+            <div className="hidden lg:block bg-white shadow-sm rounded-lg overflow-hidden ">
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Location</th>
-                      <th className="px-4 lg:px-16 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
-                      <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
-                      <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Location</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Delivery</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredEvents.length === 0 ? (
                       <tr>
-                        <td colSpan="4" className="text-center py-8 text-gray-500">
+                        <td colSpan="5" className="text-center py-6 text-gray-500 text-sm">
                           {searchTerm ? 'No matching events found' : 'No upcoming events available'}
                         </td>
                       </tr>
                     ) : (
                       filteredEvents.map((ev, idx) => (
-                        <tr key={idx} className="hover:bg-gray-50 transition-colors duration-150">
-                             <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center mb-2">
-                              <FiCalendar className="mr-2 text-[#d9b683] flex-shrink-0" />
-                              <span className="text-sm font-semibold text-gray-900">{formatDate(ev.date)}</span>
+                        <tr key={idx} className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                       onClick={() => navigate(`/dashboard/bookings/${ev.booking_id}`)}>
+                          <td className="px-3 py-3">
+                            <div className="flex items-center mb-1">
+                              <FiCalendar className="mr-2 text-[#d9b683] flex-shrink-0 text-xs" />
+                              <span className="font-medium text-gray-900 text-xs">{formatDate(ev.date)}</span>
                             </div>
                             <div className="flex items-center">
-                              <FiMapPin className="mr-2 text-[#d9b683] flex-shrink-0" />
-                              <span className="text-sm text-gray-500">{ev.location || 'Location not specified'}</span>
+                              <FiMapPin className="mr-2 text-[#d9b683] flex-shrink-0 text-xs" />
+                              <span className="text-gray-500 text-xs truncate max-w-[120px]">{ev.location || 'Location not specified'}</span>
                             </div>
                           </td>
-                          <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
+                          <td className="px-3 py-3">
                             <div className="flex items-center">
                               {getEventIcon(ev.event_type)}
-                              <div className="ml-3 lg:ml-4">
-                                <div className="text-sm text-gray-900">{ev.event_type}</div>
-                                <div className="text-sm text-gray-500">#{ev.booking_code}</div>
+                              <div className="ml-2">
+                                <div className="text-xs font-medium text-gray-900">{ev.event_type}</div>
+                                <div className="text-xs text-gray-500">#{ev.booking_code}</div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-semibold text-gray-900">{ev.client_name}</div>
+                          <td className="px-3 py-3">
+                            <div className="text-xs font-medium text-gray-900">{ev.client_name}</div>
                             {ev.event_description && (
-                              <div className="text-sm text-gray-500 mt-1">{ev.event_description}</div>
+                              <div className="text-xs text-gray-500 mt-1 truncate max-w-[150px]">{ev.event_description}</div>
                             )}
                           </td>
-                       
-                          <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
-                            <div className="mb-3">
-                              <div className="text-xs text-gray-500 mb-1">Payment</div>
-                              {getStatusBadge(ev.payment_status)}
-                            </div>
-                            <div>
-                              <div className="text-xs text-gray-500 mb-1">Delivery</div>
-                              {getDeliveryStatus(ev.delivery_status)}
-                            </div>
+                          <td className="px-3 py-3">
+                            {getStatusBadge(ev.payment_status)}
+                          </td>
+                          <td className="px-3 py-3">
+                            {getDeliveryStatus(ev.delivery_status)}
                           </td>
                         </tr>
                       ))
@@ -287,7 +289,6 @@ const BookingManagement = () => {
                 </table>
               </div>
             </div>
-
             {/* Tablet View */}
             <div className="hidden md:block lg:hidden space-y-4">
               {filteredEvents.length === 0 ? (
@@ -298,7 +299,8 @@ const BookingManagement = () => {
                 </div>
               ) : (
                 filteredEvents.map((ev, idx) => (
-                  <div key={idx} className="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
+                  <div key={idx} className="bg-white p-4 rounded-xl shadow-lg border border-gray-100 cursor-pointer hover:shadow-md transition"
+  onClick={() => navigate(`/dashboard/bookings/${ev.booking_id}`)}>
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center">
                         <div className="mr-3">{getEventIcon(ev.event_type)}</div>
@@ -345,69 +347,69 @@ const BookingManagement = () => {
                 ))
               )}
             </div>
-
             {/* Mobile View */}
-            <div className="md:hidden space-y-3">
-              {filteredEvents.length === 0 ? (
-                <div className="text-center py-8 bg-white rounded-lg shadow">
-                  <p className="text-gray-500">
-                    {searchTerm ? 'No matching events found' : 'No upcoming events available'}
-                  </p>
-                </div>
-              ) : (
-                filteredEvents.map((ev, idx) => (
-                  <div key={idx} className="bg-white p-4 rounded-lg shadow border border-gray-200">
-                    {/* Header with Event Type and Client Name */}
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex items-center">
-                        <div className="mr-3">{getEventIcon(ev.event_type)}</div>
-                        <div>
-                          <h3 className="font-semibold text-gray-900 text-sm">{ev.event_type}</h3>
-                          <p className="text-xs text-gray-500">#{ev.booking_code}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Client Name - Prominently displayed */}
-                    <div className="flex items-center mb-3 p-2 bg-gray-50 rounded-lg">
-                      <FiUser className="mr-2 text-[#d9b683] flex-shrink-0" />
-                      <span className="font-medium text-gray-900 text-sm">{ev.client_name}</span>
-                    </div>
-
-                    {/* Event Description if available */}
-                    {ev.event_description && (
-                      <div className="mb-3 text-xs text-gray-600 bg-blue-50 p-2 rounded">
-                        {ev.event_description}
-                      </div>
-                    )}
-
-                    {/* Date and Location */}
-                    <div className="space-y-2 mb-3">
-                      <div className="flex items-center text-xs">
-                        <FiCalendar className="mr-2 text-[#d9b683] flex-shrink-0" />
-                        <span className="font-medium">{formatDate(ev.date)}</span>
-                      </div>
-                      <div className="flex items-center text-xs">
-                        <FiMapPin className="mr-2 text-[#d9b683] flex-shrink-0" />
-                        <span className="text-gray-600">{ev.location || 'Location not specified'}</span>
-                      </div>
-                    </div>
-
-                    {/* Status Badges */}
-                    <div className="grid grid-cols-2 gap-2 pt-3 border-t border-gray-200">
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1 text-center">Payment</div>
-                        {getStatusBadge(ev.payment_status)}
-                      </div>
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1 text-center">Delivery</div>
-                        {getDeliveryStatus(ev.delivery_status)}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
+            {/* Ultra Dense Mobile View */}
+<div className="md:hidden space-y-2">
+  {filteredEvents.length === 0 ? (
+    <div className="text-center py-6 bg-white rounded border">
+      <p className="text-gray-500 text-sm">
+        {searchTerm ? 'No matching events found' : 'No upcoming events available'}
+      </p>
+    </div>
+  ) : (
+    filteredEvents.map((ev, idx) => (
+      <div key={idx}  className="bg-white p-3 rounded border border-gray-200 hover:shadow-sm transition-shadow cursor-pointer"
+  onClick={() => navigate(`/dashboard/bookings/${ev.booking_id}`)}>
+        {/* Compact Header Row */}
+        <div className="flex justify-between items-start mb-2">
+          <div className="flex items-center flex-1 min-w-0">
+            <div className="mr-2 flex-shrink-0">{getEventIcon(ev.event_type)}</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-baseline gap-2">
+                <h3 className="font-semibold text-gray-900 text-sm truncate">{ev.event_type}</h3>
+                <span className="text-xs text-gray-500 flex-shrink-0">#{ev.booking_code}</span>
+              </div>
+              <div className="flex items-center mt-1">
+                <FiUser className="mr-1 text-[#d9b683] flex-shrink-0 text-xs" />
+                <span className="font-medium text-gray-900 text-sm truncate">{ev.client_name}</span>
+              </div>
             </div>
+          </div>
+          <div className="text-right flex-shrink-0 ml-2">
+            <div className="text-xs font-medium text-gray-900 whitespace-nowrap">{formatDate(ev.date)}</div>
+          </div>
+        </div>
+
+        {/* Location - Single Line */}
+        <div className="flex items-center text-xs text-gray-600 mb-2">
+          <FiMapPin className="mr-1 text-[#d9b683] flex-shrink-0" />
+          <span className="truncate">{ev.location || 'Location not specified'}</span>
+        </div>
+
+        {/* Event Description - Compact */}
+        {ev.event_description && (
+          <div className="mb-2 text-xs text-gray-600 line-clamp-2 bg-gray-50 px-2 py-1 rounded">
+            {ev.event_description}
+          </div>
+        )}
+
+        {/* Status Badges - Ultra Compact */}
+        <div className="flex gap-1.5 pt-2 border-t border-gray-100">
+          <div className="flex-1">
+            <div className="text-[10px] text-gray-500 mb-1 text-center">Payment</div>
+            <div className="scale-90 origin-center">{getStatusBadge(ev.payment_status)}</div>
+          </div>
+          <div className="flex-1">
+            <div className="text-[10px] text-gray-500 mb-1 text-center">Delivery</div>
+            <div className="scale-90 origin-center">{getDeliveryStatus(ev.delivery_status)}</div>
+          </div>
+        </div>
+      </div>
+    ))
+  )}
+</div>
+
+            
           </div>
         </div>
       </div>

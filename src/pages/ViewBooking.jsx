@@ -61,6 +61,12 @@ const ViewEditBooking = ({ currentUser }) => {
     additional_notes: ''
   });
 
+    // Go back to previous page
+  const handleBack = () => {
+    navigate(-1); // This goes to the previous page in history
+  };
+
+
   // Helper: format date
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -83,7 +89,7 @@ const ViewEditBooking = ({ currentUser }) => {
           event_type: booking.event_type,
           event_description: booking.event_description,
           event_dates: booking.event_dates && booking.event_dates.length > 0 ? booking.event_dates : [{ date: booking.wedding_date || '' }],
-          location: booking.location,
+          location: booking.event_dates && booking.event_dates.length > 0 ? booking.date_location : [{ date: booking.location || '' }],
           additional_notes: booking.additional_notes
         }));
 
@@ -720,7 +726,7 @@ const ViewEditBooking = ({ currentUser }) => {
                   onClick={() =>
                     setFormData((prev) => ({
                       ...prev,
-                      event_dates: [...prev.event_dates, { date: "", location: "" }],
+                      event_dates: [...prev.event_dates, { date: "", date_location: "" }],
                     }))
                   }
                   className="mt-4 bg-[#d9b683] hover:bg-[#c9a673] text-white font-semibold py-2 px-6 rounded-sm flex items-center justify-center transition-all duration-200 shadow-sm hover:shadow-md"
@@ -1176,12 +1182,12 @@ const ViewEditBooking = ({ currentUser }) => {
                         <div>
                           <label className="block text-sm font-medium text-gray-500 mb-1">Event Date</label>
                           <p className="text-gray-800 font-medium">
-                            {formData.event_dates && formData.event_dates.length > 0 ? formatDate(formData.event_dates[0].date) : 'No date set'}
+                            {formData.event_dates && formData.event_dates.length > 0 ? (formData.event_dates.map(event => event.date)) : 'No date set'}
                           </p>
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-500 mb-1">Location</label>
-                          <p className="text-gray-800">{formData.location || 'No location specified'}</p>
+                          <p className="text-gray-800">{formData.event_dates.map(event => event.date_location) || 'No location specified'}</p>
                         </div>
                       </div>
                     </div>
@@ -1353,32 +1359,33 @@ const ViewEditBooking = ({ currentUser }) => {
                     </div>
                   </div>
 
-                  <div className="flex justify-end gap-4">
-                    <button
-                      type="button"
-                      onClick={() => navigate('/dashboard/bookings')}
-                      className="bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-2 px-6 rounded flex items-center transition-colors"
-                    >
-                      <FaArrowLeft className="ml-2" /> Back
-                    </button>
+                    {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    className="px-6 py-2 bg-[#d9b683] hover:bg-[#c9a673] text-white font-medium rounded flex items-center justify-center transition-colors order-2 sm:order-1"
+                  >
+                    <FaArrowLeft className="mr-2" /> Back
+                  </button>
 
                     {user?.is_superuser && (
                       <button
-                        type="button"
-                        onClick={() => navigate(`/dashboard/invoice/${id}`)}
-                        className="bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-2 px-6 rounded flex items-center transition-colors"
-                      >
-                        Record Payment
-                      </button>
-                    )}
-
-                    <button
                       type="button"
                       onClick={() => navigate(`/dashboard/invoice/${id}`)}
-                      className="bg-[#d9b683] hover:bg-[#c9a673] text-white font-bold py-2 px-6 rounded flex items-center transition-colors"
+                      className="px-6 py-2 bg-[#d9b683] hover:bg-[#c9a673] text-white font-medium rounded flex items-center justify-center transition-colors order-1 sm:order-2"
                     >
-                      View Full Invoice <FaArrowRight className="ml-2" />
+                      Record Payment
                     </button>
+                    )}
+
+                        <button
+                    type="button"
+                    onClick={() => navigate(`/dashboard/invoice/${id}`)}
+                    className="px-6 py-2 bg-[#d9b683] hover:bg-[#c9a673] text-white font-medium rounded flex items-center justify-center transition-colors order-3"
+                  >
+                    View Full Invoice <FaArrowRight className="ml-2" />
+                  </button>
                   </div>
                 </div>
               </>

@@ -26,13 +26,15 @@ const CreateBooking = () => {
 
   // Form data
   const [formData, setFormData] = useState({
-    client: user?.is_superuser ? savedBooking?.client  : user?.id ||'',
+    client: user?.is_superuser
+  ? (savedBooking?.client ?? null)
+  : user?.id,
     event_type: savedBooking?.event_type || '',
     event_description: savedBooking?.event_description ||'',
     event_dates: savedBooking?.event_dates || [{ date: '', date_location: '' }],
     additional_notes: savedBooking?.additional_notes||'',
     packages: [],
-    addons: []
+    Addons: []
   });
 
   // Store booking data returned from step 1
@@ -94,6 +96,8 @@ const CreateBooking = () => {
     
     fetchPackages();
   }, []);
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -208,13 +212,23 @@ const CreateBooking = () => {
     }
   };
 
+
+  const handleBack = () => {
+  // setFormData(savedBooking || formData); // fallback to latest saved
+  console.log("button pressed")
+  setStep(1);
+  };
+
+
+
+
   const handleSubmitStep1 = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       if (savedBooking){
         
-        console.log(savedBooking.id)
+        console.log(formData)
         const id = savedBooking.id
         const data = await updateBookings(id, formData)
         setFormData(prev => ({ ...prev, booking_id: data.id }));
@@ -233,6 +247,8 @@ const CreateBooking = () => {
           setStep(2);
           setCreated(true)
           localStorage.setItem('bookingData', JSON.stringify(data));
+          // localStorage.setItem('bookingData', data);
+          console.log(localStorage.getItem('bookingData'))
           // localStorage.setItem('bookingInfo', data.id)
 
         } else {
@@ -503,7 +519,7 @@ const CreateBooking = () => {
     onClick={() =>
       setFormData((prev) => ({
         ...prev,
-        event_dates: [...prev.event_dates, { date: "", location: "" }],
+        event_dates: [...prev.event_dates, { date: "", date_location: "" }],
       }))
     }
     className="mt-4 bg-[#d9b683] hover:bg-[#c9a673] text-white font-semibold py-2 px-6 rounded-sm flex items-center justify-center transition-all duration-200 shadow-sm hover:shadow-md"
@@ -881,7 +897,7 @@ const CreateBooking = () => {
           <div className="flex justify-between">
             <button
               type="button"
-              onClick={() => setStep(1)}
+              onClick={() => handleBack()}
               className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded flex items-center"
             >
               <FaArrowLeft className="mr-2" /> Back

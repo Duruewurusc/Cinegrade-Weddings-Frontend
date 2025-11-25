@@ -27,6 +27,23 @@ const ClientBookingPage = () => {
     return `₦${amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
   };
 
+  // Function to get display locations with dates
+  const getDisplayLocations = (booking) => {
+    // If there are event dates with locations, use them
+    if (booking.event_dates && booking.event_dates.length > 0) {
+      return booking.event_dates.map(eventDate => ({
+        date: eventDate.date,
+        location: eventDate.date_location || booking.location || 'No location specified'
+      }));
+    }
+    
+    // Fallback to booking location and wedding date
+    return [{
+      date: booking.wedding_date,
+      location: booking.location || 'No location specified'
+    }];
+  };
+
   useEffect(() => {
     const fetchBooking = async () => {
       try {
@@ -91,13 +108,14 @@ const ClientBookingPage = () => {
   };
 
   const formatDate = (dateString) => {
-  const date = new Date(dateString); // expects YYYY-MM-DD or valid parseable date
-  return date.toLocaleDateString("en-US", {
-    month: "short", // "Sep"
-    day: "numeric", // 11
-    year: "numeric", // 2025
-  });
-};
+    if (!dateString) return 'Date not set';
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
 
   const resetFilters = () => {
     setSearchTerm('');
@@ -141,8 +159,8 @@ const ClientBookingPage = () => {
         <div 
            className="flex-1 md:ml-64 p-4 overflow-y-auto"
           style={{ 
-            height: 'calc(100vh - 4rem)', // Adjust based on Navbar height
-            width: '100%', // Ensure full width on mobile
+            height: 'calc(100vh - 4rem)',
+            width: '100%',
           }}
         >
 
@@ -228,122 +246,125 @@ const ClientBookingPage = () => {
                         <tr>
                           <th className="py-3 px-4 text-left text-[#d9b683]">Booking Code</th>
                           <th className="py-3 px-4 text-left">Event Type</th>
-                          <th className="py-3 px-4 text-left">Date</th>
-                          <th className="py-3 px-4 text-left">Location</th>
+                          <th className="py-3 px-4 text-left">Date & Location</th>
                           <th className="py-3 px-4 text-left">Price Total</th>
                           <th className="py-3 px-4 text-left">Amount Paid</th>
                           <th className="py-3 px-4 text-left">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="text-gray-700">
-                        {filteredBookings.map((booking) => (
-                          <tr key={booking.id}  className="border-b border-gray-200 hover:bg-gray-50">
-                            <td className="py-3 px-4" onClick={() => handleViewReciept(booking.id)}>{booking.booking_code}<div className='font-semibold'>{booking.client_name}</div></td>
-                            <td className="py-3 px-4">{booking.event_type || 'N/A'}</td>
-                            
-                            <td className="py-3 px-4">
-                              {booking.event_dates && booking.event_dates.length > 0 ? (
-                                <div className="flex flex-col space-y-1">
-                                  {booking.event_dates.map((ed) => (
-                                    <span key={ed.id}>{formatDate(ed.date)}</span>
+                        {filteredBookings.map((booking) => {
+                          const displayLocations = getDisplayLocations(booking);
+                          
+                          return (
+                            <tr key={booking.id} className="border-b border-gray-200 hover:bg-gray-50">
+                              <td className="py-3 px-4" onClick={() => handleViewReciept(booking.id)}>
+                                {booking.booking_code}
+                                <div className='font-semibold'>{booking.client_name}</div>
+                              </td>
+                              <td className="py-3 px-4">{booking.event_type || 'N/A'}</td>
+                              
+                              <td className="py-3 px-4">
+                                <div className="flex flex-col space-y-2">
+                                  {displayLocations.map((item, index) => (
+                                    <div key={index} className="border-l-2 border-[#d9b683] pl-2">
+                                      <div className="font-medium">{formatDate(item.date)}</div>
+                                      <div className="text-sm text-gray-600">{item.location}</div>
+                                    </div>
                                   ))}
                                 </div>
-                              ) : (
-                                <span>{formatDate(booking.wedding_date)}</span>
-                              )}
-                            </td>
+                              </td>
 
-                            <td className="py-3 px-4">{booking.location}</td>
-                            <td className="py-3 px-4 font-medium">
-                              {formatToNaira(booking.total_amount)}
-                            </td>
-                            <td className="py-3 px-4 font-medium">
-                              {formatToNaira(booking.total_payments_made)}
-                            </td>
-                            <td className="py-3 px-4">
-                              <div className="flex space-x-2 items-center">
-                                <button
-                                  onClick={() => handleViewInvoice(booking.id)}
-                                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
-                                >
-                                  View Invoice
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteBooking(booking.id)}
-                                  className="text-[#d9b683] hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors"
-                                  title="Delete booking"
-                                >
-                                  <FaTrash className="w-4 h-4" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                              <td className="py-3 px-4 font-medium">
+                                {formatToNaira(booking.total_amount)}
+                              </td>
+                              <td className="py-3 px-4 font-medium">
+                                {formatToNaira(booking.total_payments_made)}
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="flex space-x-2 items-center">
+                                  <button
+                                    onClick={() => handleViewInvoice(booking.id)}
+                                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
+                                  >
+                                    View Invoice
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteBooking(booking.id)}
+                                    className="text-[#d9b683] hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors"
+                                    title="Delete booking"
+                                  >
+                                    <FaTrash className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
 
                   {/* Mobile Card View */}
                   <div className="md:hidden space-y-4">
-                    {filteredBookings.map((booking) => (
-                      <div key={booking.id} className="bg-white rounded-lg shadow p-4">
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h3 className="font-bold text-lg" onClick={() => handleViewReciept(booking.id)}>
-                                {booking.booking_code}
-                              </h3>
-                              <p className="text-sm text-gray-600">{booking.client_name}</p>
+                    {filteredBookings.map((booking) => {
+                      const displayLocations = getDisplayLocations(booking);
+                      
+                      return (
+                        <div key={booking.id} className="bg-white rounded-lg shadow p-4">
+                          <div className="space-y-2">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h3 className="font-bold text-lg" onClick={() => handleViewReciept(booking.id)}>
+                                  {booking.booking_code}
+                                </h3>
+                                <p className="text-sm text-gray-600">{booking.client_name}</p>
+                              </div>
+                              <button
+                                onClick={() => handleDeleteBooking(booking.id)}
+                                className="text-[#d9b683] hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors"
+                                title="Delete booking"
+                              >
+                                <FaTrash className="w-4 h-4" />
+                              </button>
                             </div>
+                            
+                            <div className="grid grid-cols-2 gap-2">
+                              <div>
+                                <p className="text-sm text-gray-500">Event Type</p>
+                                <p>{booking.event_type || 'N/A'}</p>
+                              </div>
+                              <div className="col-span-2">
+                                <p className="text-sm text-gray-500 mb-1">Date & Location</p>
+                                <div className="space-y-2">
+                                  {displayLocations.map((item, index) => (
+                                    <div key={index} className="border-l-2 border-[#d9b683] pl-2">
+                                      <div className="font-medium">{formatDate(item.date)}</div>
+                                      <div className="text-sm text-gray-600">{item.location}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                              <div>
+                                <p className="text-sm text-gray-500">Total Amount</p>
+                                <p className="font-medium">{formatToNaira(booking.total_amount)}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-gray-500">Amount Paid</p>
+                                <p className="font-medium">{formatToNaira(booking.total_payments_made)}</p>
+                              </div>
+                            </div>
+                            
                             <button
-                              onClick={() => handleDeleteBooking(booking.id)}
-                              className="text-[#d9b683] hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors"
-                              title="Delete booking"
+                              onClick={() => handleViewInvoice(booking.id)}
+                              className="w-full bg-[#d9b683] hover:bg-[#9b9388] text-white py-2 px-4 rounded text-sm mt-2"
                             >
-                              <FaTrash className="w-4 h-4" />
+                              View Invoice
                             </button>
                           </div>
-                          
-                          <div className="grid grid-cols-2 gap-2">
-                            <div>
-                              <p className="text-sm text-gray-500">Event Type</p>
-                              <p>{booking.event_type || 'N/A'}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-gray-500">Date</p>
-                            <div className="flex flex-col space-y-1">
-                              {booking.event_dates && booking.event_dates.length > 0 ? (
-                                booking.event_dates.map((ed) => (
-                                  <span key={ed.id}>{formatDate(ed.date)}</span>
-                                ))
-                              ) : (
-                                <span>{formatDate(booking.wedding_date)}</span>
-                              )}
-                            </div>
-                            </div>
-                            <div>
-                              <p className="text-sm text-gray-500">Location</p>
-                              <p>{booking.location}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-gray-500">Total Amount</p>
-                              <p className="font-medium">{formatToNaira(booking.total_amount)}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-gray-500">Amount Paid</p>
-                              <p className="font-medium">{formatToNaira(booking.total_payments_made)}</p>
-                            </div>
-                          </div>
-                          
-                          <button
-                            onClick={() => handleViewInvoice(booking.id)}
-                            className="w-full bg-[#d9b683] hover:bg-[#9b9388] text-white py-2 px-4 rounded text-sm mt-2"
-                          >
-                            View Invoice
-                          </button>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </>
               )}
