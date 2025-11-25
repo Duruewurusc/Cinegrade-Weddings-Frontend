@@ -57,8 +57,7 @@ const ViewEditBooking = ({ currentUser }) => {
     client: user?.is_superuser ? '' : user?.id,
     event_type: '',
     event_description: '',
-    event_dates: [{ date: '' }],
-    location: '',
+    event_dates: [{ date: '', date_location: '' }],
     additional_notes: ''
   });
 
@@ -687,11 +686,11 @@ const ViewEditBooking = ({ currentUser }) => {
                       <div className="flex-1 w-full">
                         <input
                           type="text"
-                          value={eventDate.location || ""}
+                          value={eventDate.date_location || ""}
                           placeholder="Enter location..."
                           onChange={(e) => {
                             const updated = [...formData.event_dates];
-                            updated[index].location = e.target.value;
+                            updated[index].date_location = e.target.value;
                             setFormData((prev) => ({ ...prev, event_dates: updated }));
                           }}
                           className="w-full p-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#d9b683] focus:border-transparent transition-colors duration-200 placeholder-gray-400"
