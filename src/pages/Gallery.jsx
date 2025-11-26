@@ -9,7 +9,7 @@ import {Thumbnails, Counter} from 'yet-another-react-lightbox/plugins';
 import 'yet-another-react-lightbox/plugins/thumbnails.css';
 import { useState, useEffect } from 'react';
 import { fetchGalleryImages } from '../services/Api';
-import bannerImage from '../assets/gallery-banner.jpg';
+import bannerImage from '../assets/gallery-banner2.jpg';
 import { FaSpinner } from 'react-icons/fa';
 
 const Gallery = () => {
