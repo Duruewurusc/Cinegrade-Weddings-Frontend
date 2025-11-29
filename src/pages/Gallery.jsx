@@ -213,7 +213,7 @@ const Gallery = () => {
                 
             </motion.h1>
             
-            <div className="p-4 md:p-10 flex items-center justify-center max-w-[1300px] mx-auto">
+            <div className="p-4 md:p-10 flex items-center justify-center max-w-[900px] mx-auto">
                 <AnimatePresence mode="wait">
                     {filteredImages.length === 0 ? (
                         <motion.div

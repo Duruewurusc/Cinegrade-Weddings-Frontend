@@ -77,7 +77,7 @@ const Pricing = () => {
     const [error, setError] = useState(null)
     const { booking, setBooking } = useUser()
     const { user } = useUser()
-    const [activeFilter, setActiveFilter] = useState('photo')
+    const [activeFilter, setActiveFilter] = useState('combo')
 
     // Filter packages
     const photoPackages = packages.filter(pkg => pkg.category === 'photo');
