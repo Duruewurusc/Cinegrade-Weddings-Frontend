@@ -146,7 +146,7 @@ const AboutUs = () => {
               <p className="text-gray-400 leading-relaxed">
                 We are a passionate team of photographers, videographers, and 
                 storytellers united by a shared love for capturing life's most 
-                precious moments. Based in the heart of the city, we travel 
+                precious moments. Based in the heart of Enugu Nigeria, we travel 
                 worldwide to document love stories in all their beautiful forms.
               </p>
               <p className="text-gray-400 leading-relaxed">
@@ -157,16 +157,16 @@ const AboutUs = () => {
               </p>
               <div className="grid grid-cols-3 gap-6 pt-6">
                 <div className="text-center">
-                  <div className="text-3xl font-light text-gray-50">500+</div>
+                  <div className="text-3xl font-light text-gray-50">100+</div>
                   <div className="text-sm text-gray-400">Weddings</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-light text-gray-50">15+</div>
+                  <div className="text-3xl font-light text-gray-50">10+</div>
                   <div className="text-sm text-gray-400">Years</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-light text-gray-50">50+</div>
-                  <div className="text-sm text-gray-400">Countries</div>
+                  <div className="text-sm text-gray-400">Wedding Films</div>
                 </div>
               </div>
             </div>
