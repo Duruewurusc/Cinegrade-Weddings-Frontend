@@ -6,11 +6,13 @@ import aboutImage from '../assets/cgw banner.jpg'; // Placeholder for team image
 import dscpix from '../assets/dscpix.jpg';
 import abtus1 from '../assets/abtus1.jpg';
 import abtus2 from '../assets/abtus2.jpg';
+import { useNavigate } from 'react-router-dom'; 
 
 import { FiCamera, FiFilm, FiHeart, FiAward, FiMail, FiPhone, FiMapPin, FiUsers, FiStar, FiDollarSign } from "react-icons/fi";
 
 
 const AboutUs = () => {
+  const navigate= useNavigate()
   return (
     <>
     <Navbar/>
@@ -18,17 +20,17 @@ const AboutUs = () => {
       {/* Hero Banner with Dark Gradient Overlay */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-black/40"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-black/80"
           style={{
             backgroundImage: `url(${aboutImage})` ,
             backgroundPosition: 'center 20%'
           }}
         />
         {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/10 via-neutral-900/70 to-neutral-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/10 via-neutral-900/70 to-neutral-900" />
         <div className="relative z-10 text-center px-4">
 
-          <h1 className="text-8xl md:text-7xl font-serif font-light tracking-wide mb-4 text-gray-50">
+          <h1 className="text-4xl md:text-8xl font-serif font-light tracking-wide mb-4 text-gray-50">
             About Us
           </h1>
           {/* <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
@@ -42,7 +44,7 @@ const AboutUs = () => {
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative">
-              <div className="aspect-[3/4] rounded-lg overflow-hidden  border-neutral-800">
+              <div className="aspect-[3/4] rounded-lg overflow-hidden  border-neutral-800 w-50 md:w-full">
                 <img
                   src={dscpix}
                   alt="Creative Director"
@@ -207,12 +209,12 @@ const AboutUs = () => {
             love story and discuss how we can capture it beautifully.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <button className="px-8 py-4 bg-[#d9b684] text-neutral-900 font-medium rounded-lg hover:bg-amber-600 transition-colors duration-300 flex items-center gap-2">
+            <button onClick={()=>navigate('/contact')}className="px-8 py-4 bg-[#d9b684] text-neutral-900 font-medium rounded-lg hover:bg-neutral-400 transition-colors duration-300 flex items-center gap-2">
               <FiMail className="w-5 h-5" />
               Contact Us
             </button>
-            <button className="px-8 py-4 bg-transparent border-2 border-[#d9b684]/50 text-[#d9b684] font-medium rounded-lg hover:bg-[#d9b684]/10 transition-colors duration-300 flex items-center gap-2">
-              <FiDollarSign className="w-5 h-5" />
+            <button onClick={()=>navigate('/pricing')} className="px-8 py-4 bg-transparent border-2 border-[#d9b684]/50 text-[#d9b684] font-medium rounded-lg hover:bg-[#d9b684]/10 transition-colors duration-300 flex items-center gap-2">
+              
               View Pricing
             </button>
           </div>
