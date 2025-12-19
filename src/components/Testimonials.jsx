@@ -68,7 +68,8 @@ const Testimonials = () => {
   const maxIndex = Math.max(0, featuredTestimonials.length - itemsPerView);
   
   return ( 
-    <div className='max-w-7xl mx-auto px-4 pt-12 pb-16 relative'>
+    <div className='w-full'>
+      <div className="max-w-7xl mx-auto px-4 pt-12 pb-16 relative">
       <h2 className='text-[#d9b683] text-4xl font-bold text-center mb-10'>What Our Clients Say</h2>
       
       <div className='relative'>
@@ -145,7 +146,7 @@ const Testimonials = () => {
           ))}
         </div>
       )}
-    </div>
+    </div></div>
   );
 };
 

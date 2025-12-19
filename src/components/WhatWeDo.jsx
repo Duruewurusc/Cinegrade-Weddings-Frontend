@@ -57,7 +57,7 @@ const WhatWeDo = () => {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 relative pb-4">
+          <h2 className="font-serif font-light text-neutral-900 text-4xl md:text-5xl mb-4 relative pb-4">
             Our Premium Services
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#d9b683] rounded-full"></div>
           </h2>
@@ -123,7 +123,7 @@ const WhatWeDo = () => {
                         </div>
                       </div>
                       <div>
-                        <h3 className="font-serif font-medium text-lg mb-2  transition-colors">
+                        <h3 className=" font-medium text-lg mb-2  transition-colors">
                           {service.title}
                         </h3>
                         <p className="text-gray-600 text-sm">{service.description}</p>

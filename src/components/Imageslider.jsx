@@ -73,7 +73,7 @@ const ImageSlider = () => {
 
   return (
     
-    <div className="py-10 shadow-lg relative w-full h-[60vh] overflow-hidden bg-[#e9e9e9] bg-gradient-to-b from-transparent via-black/20 to-black/100 bg-opacity-40">
+    <div className="py-10 border-b border-[#d9b683] shadow-lg relative w-full h-[60vh] overflow-hidden bg-[#e9e9e9] bg-gradient-to-b from-transparent via-black/20 to-black/100 bg-opacity-40">
       {/* Slider track */}
       <div 
         ref={sliderRef}

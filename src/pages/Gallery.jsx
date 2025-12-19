@@ -148,6 +148,7 @@ const Gallery = () => {
     return (
         <>
             <Navbar/>
+            <div className=''>
             
             {/* Animated Banner */}
             <motion.div
@@ -213,7 +214,7 @@ const Gallery = () => {
                 
             </motion.h1>
             
-            <div className="p-4 md:p-10 flex items-center justify-center max-w-[900px] mx-auto">
+            <div className="p-4 md:p-10 flex items-center justify-center max-w-[900px] md:max-w-[1400px] mx-auto">
                 <AnimatePresence mode="wait">
                     {filteredImages.length === 0 ? (
                         <motion.div
@@ -268,7 +269,7 @@ const Gallery = () => {
                 slides={filteredImages}
             />
 
-            <Footer/>
+            <Footer/></div>
         </>
     );
 };
