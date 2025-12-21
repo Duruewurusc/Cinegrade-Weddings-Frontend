@@ -18,7 +18,7 @@ const AboutUs = () => {
     <Navbar/>
     <div className="min-h-screen bg-neutral-900 text-gray-100">
       {/* Hero Banner with Dark Gradient Overlay */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[10vh] md:h-[20vh] flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-black/80"
           style={{
