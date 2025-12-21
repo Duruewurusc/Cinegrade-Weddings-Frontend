@@ -109,7 +109,7 @@ const Gallery = () => {
         { id: 'wedding', label: 'Wedding' },
         { id: 'portrait', label: 'Portrait' },
         { id: 'engagement', label: 'Engagement' },
-        { id: 'other', label: 'Other Events' }
+        // { id: 'other', label: 'Other Events' }
     ];
 
     if (loading) {
@@ -179,7 +179,7 @@ const Gallery = () => {
                 variants={filterVariants}
                 initial="hidden"
                 animate="visible"
-                className="bg-white py-6 sticky top-0 z-10 shadow-sm"
+                className="bg-black py-6 sticky top-0 z-10 shadow-sm"
             >
                 <div className="container mx-auto px-4">
                     <motion.div 
@@ -193,7 +193,7 @@ const Gallery = () => {
                                 className={`px-4 py-2 rounded text-sm md:text-base transition-all ${
                                     activeFilter === filter.id 
                                         ? 'bg-[#d9b683] text-white' 
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-black text-white hover:bg-[#444444]'
                                 }`}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
@@ -209,7 +209,7 @@ const Gallery = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
-                className='py-10 sm:py-20 text-2xl sm:text-5xl text-center font-bold text-[#363636]'
+                className='py-10 sm:py-20 text-2xl sm:text-5xl text-center font-bold text-[#363636] font-serif'
             > Gallery
                 
             </motion.h1>
