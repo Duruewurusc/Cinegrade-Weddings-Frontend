@@ -151,7 +151,7 @@ const Gallery = () => {
             <div className=''>
             
             {/* Animated Banner */}
-            <motion.div
+            <div
                 variants={bannerVariants}
                 initial="hidden"
                 animate="visible"
@@ -172,7 +172,7 @@ const Gallery = () => {
                        
                     </motion.h1>
                 </div>
-            </motion.div>
+            </div>
 
             {/* Animated Filter Controls */}
             <motion.div
@@ -192,7 +192,7 @@ const Gallery = () => {
                                 onClick={() => setActiveFilter(filter.id)}
                                 className={`px-4 py-2 rounded text-sm md:text-base transition-all ${
                                     activeFilter === filter.id 
-                                        ? 'bg-[#d9b683] text-white' 
+                                        ? 'bg-transparent text-white  border-2 md:border-4 border-[#d9b683] font-semibold' 
                                         : 'bg-black text-white hover:bg-[#444444]'
                                 }`}
                                 whileHover={{ scale: 1.05 }}

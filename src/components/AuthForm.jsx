@@ -53,7 +53,7 @@ export default function AuthForm() {
           setMessage({ text: result.error, type: "error" });
           return;
         }
-        navigate(booking ? "/dashboard/new-booking" : "/dashboard/bookings");
+        navigate(booking ? "/dashboard/new-booking" : "/dashboard/upcoming-events");
       } else {
         if (formData.password !== formData.confirm_password) {
           setMessage({ text: "Passwords do not match", type: "error" });
