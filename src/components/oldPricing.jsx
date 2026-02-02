@@ -226,7 +226,7 @@ const Pricing = () => {
                     animate="visible"
                     className="flex flex-wrap justify-center gap-2 md:gap-4 mb-10 px-4 pt-12"
                 >
-                    {['photo', 'video', 'combo'].map((filterType) => (
+                    {['all', 'photo', 'video', 'combo'].map((filterType) => (
                         <motion.button
                             key={filterType}
                             variants={itemVariants}

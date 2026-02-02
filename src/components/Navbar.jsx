@@ -38,7 +38,7 @@ const Navbar = ({show=true}) => {
             <Link to="/gallery">Gallery</Link>
           </li>
           <li className={`text-lg p-4 hover:text-black transition-colors ${isActive('/pricing') ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
-            <Link to="/pricing">Pricing</Link>
+            <Link to="/pricing?category=combo">Pricing</Link>
           </li>
           <li className={`text-lg p-4 hover:text-black transition-colors ${isActive('/aboutus') ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
             <Link to="/aboutus">About Us</Link>
@@ -87,7 +87,7 @@ const Navbar = ({show=true}) => {
             <Link to="/gallery" onClick={() => setNav(true)}>Gallery</Link>
           </li>
           <li className={`p-4 border-b border-gray-100 ${isActive('/pricing') ? 'text-black font-semibold bg-gray-50' : 'text-gray-700'}`}>
-            <Link to="/pricing" onClick={() => setNav(true)}>Pricing</Link>
+            <Link to="/pricing?category=combo" onClick={() => setNav(true)}>Pricing</Link>
           </li>
           <li className={`p-4 border-b border-gray-100 ${isActive('/aboutus') ? 'text-black font-semibold bg-gray-50' : 'text-gray-700'}`}>
             <Link to="/aboutus" onClick={() => setNav(true)}>About Us</Link>
