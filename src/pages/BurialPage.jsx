@@ -105,7 +105,7 @@ const BurialPage = () => {
     const { user } = useUser()
     
     // Get category from URL or default to 'all'
-    const urlCategory = searchParams.get('category') || 'all'
+    const urlCategory = searchParams.get('category') || 'combo'
     const [activeFilter, setActiveFilter] = useState(urlCategory)
 
     // Filter packages
