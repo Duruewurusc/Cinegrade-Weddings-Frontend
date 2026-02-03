@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({show=true}) => {
   const [nav, setNav] = useState(true);
+  const [showEventsDropdown, setShowEventsDropdown] = useState(false);
   const {logout, user, isAuthenticated} = useUser();
   const location = useLocation();
   const isLoggedIn = isAuthenticated;
@@ -21,6 +22,12 @@ const Navbar = ({show=true}) => {
     return location.pathname === path;
   }
 
+  // Check if route is within events section
+  const isEventsActive = () => {
+    const eventsPaths = ['/events/burial', '/events/birthdays', '/events/documentaries', '/events/photoshoot'];
+    return eventsPaths.some(path => location.pathname.startsWith(path));
+  }
+
   return (
     <>
       <div className='flex mx-auto justify-between items-center h-24 px-4 md:px-10 sticky top-0 bg-white shadow-lg z-50'>
@@ -30,7 +37,7 @@ const Navbar = ({show=true}) => {
           </Link>
         </div>
         
-        <ul className='hidden md:flex'>
+        <ul className='hidden md:flex relative'>
           <li className={`text-lg p-4 hover:text-black transition-colors ${isActive('/') ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
             <Link to="/">Home</Link>
           </li>
@@ -46,10 +53,50 @@ const Navbar = ({show=true}) => {
           <li className={`text-lg p-4 hover:text-black transition-colors ${isActive('/blog') ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
             <Link to="/blog">Blog</Link>
           </li>
-          <li className={`text-lg p-4 hover:text-black transition-colors ${isActive('/blog') ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
-            <Link to="/others">Other Events</Link>
-          </li>
           
+          {/* Other Events Dropdown */}
+          <li className="relative group"
+              onMouseEnter={() => setShowEventsDropdown(true)}
+              onMouseLeave={() => setShowEventsDropdown(false)}>
+            <div className={`text-lg p-4 hover:text-black transition-colors cursor-pointer ${isEventsActive() ? 'text-black font-semibold border-b-2 border-[#d9b683]' : 'text-gray-700'}`}>
+              <span>Other Events</span>
+              <svg className="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+            
+            {/* Dropdown Menu */}
+            <div className={`absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${showEventsDropdown ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+              <Link 
+                to="/funeral" 
+                className={`block px-4 py-3 hover:bg-gray-50 ${isActive('/funeral') ? 'text-[#d9b683] font-medium bg-gray-50' : 'text-gray-700'}`}
+                onClick={() => setShowEventsDropdown(false)}
+              >
+                Burial Events
+              </Link>
+              <Link 
+                to="/events/birthdays" 
+                className={`block px-4 py-3 hover:bg-gray-50 ${isActive('/events/birthdays') ? 'text-[#d9b683] font-medium bg-gray-50' : 'text-gray-700'}`}
+                onClick={() => setShowEventsDropdown(false)}
+              >
+                Birthdays
+              </Link>
+              <Link 
+                to="/events/documentaries" 
+                className={`block px-4 py-3 hover:bg-gray-50 ${isActive('/events/documentaries') ? 'text-[#d9b683] font-medium bg-gray-50' : 'text-gray-700'}`}
+                onClick={() => setShowEventsDropdown(false)}
+              >
+                Documentaries
+              </Link>
+              <Link 
+                to="/events/photoshoot" 
+                className={`block px-4 py-3 hover:bg-gray-50 ${isActive('/events/photoshoot') ? 'text-[#d9b683] font-medium bg-gray-50' : 'text-gray-700'}`}
+                onClick={() => setShowEventsDropdown(false)}
+              >
+                Photoshoot
+              </Link>
+            </div>
+          </li>
         </ul>
  
         <div className={show ? 'flex items-center' : 'hidden'}>  
@@ -94,6 +141,41 @@ const Navbar = ({show=true}) => {
           </li>
           <li className={`p-4 border-b border-gray-100 ${isActive('/blog') ? 'text-black font-semibold bg-gray-50' : 'text-gray-700'}`}>
             <Link to="/blog" onClick={() => setNav(true)}>Blog</Link>
+          </li>
+          
+          {/* Mobile Events Dropdown */}
+          <li className="p-4 border-b border-gray-100">
+            <div className="font-medium text-gray-700 mb-2">Other Events</div>
+            <div className="pl-4 space-y-2">
+              <Link 
+                to="/funeral" 
+                className={`block py-2 ${isActive('/funeral') ? 'text-[#d9b683] font-medium' : 'text-gray-600'}`}
+                onClick={() => setNav(true)}
+              >
+                Burial Events
+              </Link>
+              <Link 
+                to="/events/birthdays" 
+                className={`block py-2 ${isActive('/events/birthdays') ? 'text-[#d9b683] font-medium' : 'text-gray-600'}`}
+                onClick={() => setNav(true)}
+              >
+                Birthdays
+              </Link>
+              <Link 
+                to="/events/documentaries" 
+                className={`block py-2 ${isActive('/events/documentaries') ? 'text-[#d9b683] font-medium' : 'text-gray-600'}`}
+                onClick={() => setNav(true)}
+              >
+                Documentaries
+              </Link>
+              <Link 
+                to="/events/photoshoot" 
+                className={`block py-2 ${isActive('/events/photoshoot') ? 'text-[#d9b683] font-medium' : 'text-gray-600'}`}
+                onClick={() => setNav(true)}
+              >
+                Photoshoot
+              </Link>
+            </div>
           </li>
         </ul>
       </div>

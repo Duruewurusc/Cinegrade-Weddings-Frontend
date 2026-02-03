@@ -10,6 +10,29 @@ import bannerImage from '../assets/banner 2.jpg'
 import { fetchPackage} from '../services/Api'
 import ImageSlider from '../components/StaticImageSlider'
 
+import Image1 from '../assets/gallery/img-1.jpg';
+import Image2 from '../assets/gallery/img-13.jpg';
+import Image3 from '../assets/gallery/img-14.jpg';
+import Image4 from '../assets/gallery/img-5.jpg';
+import Image5 from '../assets/gallery/img-7.jpg';
+import Image6 from '../assets/gallery/img-12.jpg';
+import Image7 from '../assets/gallery/img-9.jpg';
+import Image8 from '../assets/gallery/img-11.jpg';
+import Image9 from '../assets/gallery/img-12.jpg';
+
+const homeImages = [
+  { id: 1, src: Image1, alt: "Gallery image 1" },
+      { id: 2, src: Image2, alt: "Gallery image 2" },
+      { id: 3, src: Image3, alt: "Gallery image 3" },
+      { id: 4, src: Image4, alt: "Gallery image 4" },
+      { id: 5, src: Image5, alt: "Gallery image 5" },
+      { id: 6, src: Image6, alt: "Gallery image 6" },
+      { id: 7, src: Image7, alt: "Gallery image 6" },
+      { id: 8, src: Image8, alt: "Gallery image 6" },
+      { id: 9, src: Image9, alt: "Gallery image 6" },
+];
+
+
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -82,13 +105,13 @@ const Pricing = () => {
     const { user } = useUser()
     
     // Get category from URL or default to 'all'
-    const urlCategory = searchParams.get('category') || 'all'
+    const urlCategory = searchParams.get('category') || 'combo'
     const [activeFilter, setActiveFilter] = useState(urlCategory)
 
     // Filter packages
-    const photoPackages = packages.filter(pkg => pkg.category === 'photo')
-    const videoPackages = packages.filter(pkg => pkg.category === 'video')
-    const comboPackages = packages.filter(pkg => pkg.category === 'combo')
+    const photoPackages = packages.filter(pkg => pkg.category === 'photo' && pkg.event_type === 'wedding')
+    const videoPackages = packages.filter(pkg => pkg.category === 'video' && pkg.event_type === 'wedding')
+    const comboPackages = packages.filter(pkg => pkg.category === 'combo' && pkg.event_type === 'wedding')
 
     // Update active filter when URL changes
     useEffect(() => {
@@ -217,7 +240,7 @@ const Pricing = () => {
                     is beautifully captured.
                 </motion.p>
                 
-                <ImageSlider/>
+                <ImageSlider images={homeImages}/>
                 
                 {/* Filter buttons */}
                 <motion.div 
@@ -297,10 +320,10 @@ const Pricing = () => {
                                             </div>
                                         </div>
                                         <div className='p-6 flex flex-col flex-grow bg-white'>
-                                            <p className="font-serif py-2 text-gray-800 text-lg mb-3">{pkg.description}</p>
+                                            <p className="font-bold py-2 text-[#4d4d4d]  text-lg mb-3">{pkg.description}</p>
                                             <ul className="list-disc list-inside text-base text-gray-700 flex-grow space-y-2">
                                                 {pkg.deliverables.split(",").map((item, index) => (
-                                                    <li key={index} className="font-medium">{item.trim()}</li>
+                                                    <li key={index} className="text-sm">{item.trim()}</li>
                                                 ))}
                                             </ul>
                                             <div className="mt-6">
@@ -344,12 +367,19 @@ const Pricing = () => {
                     transition={{ delay: 0.4 }}
                     className="bg-white p-6"
                 >
-                    <h3 className="text-2xl md:text-4xl font-bold text-[#d9b683] mb-4 text-center">Terms & Conditions</h3>
+                    <h3 className="text-2xl md:text-4xl font-bold text-[#d9b683] mb-4 text-center">Terms Of Service</h3>
                     <div className="space-y-3 py-6 text-sm md:text-xl text-[#5e5e5e] w-full">
-                        <p><strong>Booking & Reservation:</strong> A non-refundable deposit of 50% is required to secure your booking date. The remaining balance is due 14 days prior to your event.</p>
-                        <p><strong>Cancellation Policy:</strong> In the event of cancellation, the deposit is non-refundable. Cancellations made less than 30 days before the event will incur 100% of the package cost.</p>
-                        <p><strong>Rescheduling:</strong> Clients may reschedule once without penalty if notice is provided at least 30 days prior to the original event date, subject to availability.</p>
-                        <p><strong>Delivery Time:</strong> Final edited photos/videos will be delivered within 4-8 weeks after the event. Rush delivery may be available for an additional fee.</p>
+                        <p>We sincerely appreciate your time in reviewing our packages. At <strong>CineGRADE VISUALS</strong>, it is our honor to help families preserve memories through photography and film.
+                            We look forward to working with you. Please feel free to reach out to us at any time for further clarification,questions, or custom requests — we are always here to serve you.<br/><br/></p>
+                        <p><strong>Booking & Reservation:</strong> A non-refundable deposit of 70% is required to secure your booking date. The remaining balance is due immediately after your event.</p>
+                        <p><strong>Cancellation Policy:</strong> In the event of cancellation, the deposit is non-refundable. </p>
+                        <p><strong>Rescheduling:</strong> Clients may reschedule once without penalty if notice is provided at least 30 days prior to the original event date, subject to availability. A 20% fee applies for rescheduling less than 30 days prior to the event date.</p>
+                        <p><strong>Delivery Time:</strong> Quick preview pictures – 20+ edted Images within 1 week after the event. <br/>
+                                    Highlight video – within 2 weeks after the event. <br/>
+                                    Complete event products (all photos & full video) – within 4-6 weeks after the event. <br/>
+                                    The complete products are to be picked up at our office in Enugu. Additional cost aplies for Waybill delivery.
+                                    Rush delivery may be available for an additional fee.</p>
+                        <p><strong>Photobooks:</strong> Where photobooks are included, the photo album design will be sent to the client for proofing before production. Once approved and printing is done, Any other correction attracts an Extra fee.</p>
                         <p><strong>Copyright:</strong> The photographer/videographer retains copyright of all images/videos while granting the client permission to reproduce and share images/videos.</p>
                         <p><strong>Liability:</strong> In the unlikely event of equipment failure, illness, or other circumstances beyond our control, liability is limited to a full refund of all payments received.</p>
                         <p><strong>Additional Expenses:</strong> Any additional expenses incurred during the assignment (travel, accommodation, etc.) will be charged to the client.</p>

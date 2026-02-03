@@ -6,6 +6,7 @@ import './App.css'
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Pricing from './pages/Pricing';
+import BurialPage from './pages/BurialPage';
 
 import ClientBookingPage from './pages/ClientBookingPage';
 import EditBookingPage from './pages/EditBookingPage';
@@ -37,6 +38,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home/>}></Route>
+          <Route path="/funeral" element={<BurialPage/>}></Route>
+
           <Route path="/gallery" element={<Gallery/>}></Route>
           <Route path="/pricing" element={<Pricing/>}></Route>
           <Route path="/pricing/:category" element={<Pricing />} />

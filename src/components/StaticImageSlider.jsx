@@ -1,30 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
-// Import local images from assets folder
-import Image1 from '../assets/gallery/img-1.jpg';
-import Image2 from '../assets/gallery/img-13.jpg';
-import Image3 from '../assets/gallery/img-14.jpg';
-import Image4 from '../assets/gallery/img-5.jpg';
-import Image5 from '../assets/gallery/img-7.jpg';
-import Image6 from '../assets/gallery/img-12.jpg';
-import Image7 from '../assets/gallery/img-9.jpg';
-import Image8 from '../assets/gallery/img-11.jpg';
-import Image9 from '../assets/gallery/img-12.jpg';
 
-const ImageSlider = () => {
+
+const ImageSlider = ({ images = [] }) => {
   // Using local images with varying widths
-  const [images] = useState([
-    { id: 1, src: Image1, alt: "Gallery image 1" },
-    { id: 2, src: Image2, alt: "Gallery image 2" },
-    { id: 3, src: Image3, alt: "Gallery image 3" },
-    { id: 4, src: Image4, alt: "Gallery image 4" },
-    { id: 5, src: Image5, alt: "Gallery image 5" },
-    { id: 6, src: Image6, alt: "Gallery image 6" },
-    { id: 7, src: Image7, alt: "Gallery image 6" },
-    { id: 8, src: Image8, alt: "Gallery image 6" },
-    { id: 9, src: Image9, alt: "Gallery image 6" },
-  ]);
+  
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3); // Number of images visible at once

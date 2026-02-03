@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
-              <h3 className="text-2xl font-bold mb-4 text-[#d9b683]">CineGRADE WEDDINGS</h3>
+              <h3 className="text-2xl font-bold mb-4 text-[#d9b683]">CineGRADE VISUALS</h3>
               <p className="text-gray-400 mb-4">Capturing the most beautiful moments of your life with artistry and passion.</p>
               <div className="flex space-x-4">
                 <a href="#" className="text-gray-400 hover:text-brand transition">
