@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export const api = axios.create({
-  baseURL: 'https://api.cinegradevisuals.com'
+  // baseURL: 'https://api.cinegradevisuals.com'
   // baseURL: 'https://cgapi-8nul.onrender.com'
   //'http://127.0.0.1:8000/',
-  // baseURL: 'http://127.0.0.1:8000/',
+  baseURL: 'http://127.0.0.1:8000/',
  
   
 });
@@ -51,7 +51,9 @@ export const postBookings = async (bookingData) =>{
 export const createPayment = async (paymentData) =>{
   const token = localStorage.getItem("access");
   const config = { headers: { Authorization: `Bearer ${token}` } };
+  console.log(token)
   const response = await api.post('/api/payments/',paymentData, config);
+  console.log(paymentData)
   return response.data
 }
 

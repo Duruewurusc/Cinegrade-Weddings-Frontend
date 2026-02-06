@@ -106,10 +106,11 @@ const PaymentForm = () => {
       };
 
       // Create or update payment
+      console.log('Submitting Payment Data:', paymentData); // Debugging log
       const response = await createPayment(paymentData);
       
       // Navigate to receipt page
-      navigate(`/receipt/${response.id}`);
+      navigate(`/dashboard/receipt/${response.id}`);
     } catch (err) {
       setError(err.message || 'Failed to save payment');
     } finally {

@@ -27,6 +27,7 @@ const ReceiptPage = () => {
         
     
         setPayment(paymentRes);
+        console.log(paymentRes)
         
       } catch (error) {
         console.error('Error fetching data:',error);
@@ -122,7 +123,7 @@ const ReceiptPage = () => {
           <div className="flex justify-between mb-4">
             <div>
               <h3 className="text-lg font-semibold">Payment Details</h3>
-              <p className="text-gray-600">Invoice #: {payment.invoice.invoice_number}</p>
+              <p className="text-gray-600">Invoice #: {payment.invoice_details.invoice_number}</p>
               <p className="text-gray-600">Transaction ID: {payment.transaction_id}</p>
             </div>
             <div className="text-right">
@@ -146,7 +147,7 @@ const ReceiptPage = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <h4 className="font-medium text-gray-700">Invoice Amount</h4>
-              <p className="text-xl">{formatCurrency(payment.invoice.total_amount)}</p>
+              <p className="text-xl">{formatCurrency(payment.invoice_details.total_amount)}</p>
             </div>
             <div>
               <h4 className="font-medium text-gray-700">Amount Paid</h4>
@@ -154,11 +155,11 @@ const ReceiptPage = () => {
             </div>
             <div>
               <h4 className="font-medium text-gray-700">Previous Payments</h4>
-              <p className="text-xl">{formatCurrency(payment.invoice.total_payments_made - payment.amount_paid)}</p>
+              <p className="text-xl">{formatCurrency(payment.invoice_details.total_payments_made - payment.amount_paid)}</p>
             </div>
             <div>
               <h4 className="font-medium text-gray-700">Balance</h4>
-              <p className="text-xl">{formatCurrency(payment.invoice.total_amount-payment.invoice.total_payments_made)}</p>
+              <p className="text-xl">{formatCurrency(payment.invoice_details.total_amount-payment.invoice_details.total_payments_made)}</p>
             </div>
           </div>
         </div>
