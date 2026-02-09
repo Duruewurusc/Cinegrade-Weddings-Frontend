@@ -18,7 +18,8 @@ const PaymentForm = () => {
     payment_method: 'Bank Transfer',
     status: 'Pending',
     transaction_id: '',
-    notes: ''
+    notes: '',
+    payment_date: new Date().toISOString().split('T')[0] // Default to today's date
   });
 
   const [bookings, setBookings] = useState([]);
@@ -97,6 +98,9 @@ const PaymentForm = () => {
       }
       if (!formData.amount_paid || parseFloat(formData.amount_paid) <= 0) {
         throw new Error('Please enter a valid amount');
+      }
+      if (!formData.payment_date) {
+        throw new Error('Please select a payment date');
       }
 
       const paymentData = {
@@ -253,6 +257,20 @@ const PaymentForm = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Payment Date *
+                </label>
+                <input
+                  type="date"
+                  name="payment_date"
+                  value={formData.payment_date}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Status *
                 </label>
                 <select
@@ -269,7 +287,7 @@ const PaymentForm = () => {
                 </select>
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Transaction ID
                 </label>

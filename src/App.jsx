@@ -59,6 +59,7 @@ function App() {
           <Route path="/dashboard/clientlist/:id" element={<CustomerProfile/>}></Route>
 
           <Route path="/dashboard/add-payment" element={<PaymentForm/>}></Route>
+          <Route path="/dashboard/add-payment/:id" element={<PaymentForm/>}></Route>
           <Route path="/dashboard/payments" element={<ClientPaymentsViewPage/>}></Route>
           <Route path="/dashboard/invoice/:id" element={<Invoice/>}></Route>
           <Route path="/bookings/edit/:id" element={<EditBookingPage />} />
