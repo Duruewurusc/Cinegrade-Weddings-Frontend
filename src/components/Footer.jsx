@@ -45,7 +45,7 @@ const Footer = () => {
                 </li>
                 <li className="flex items-start">
                   <FaEnvelope className="h-5 w-5 mr-2 mt-0.5" />
-                  <span>info@cinegradeweddings.com</span>
+                  <span>cinegradevisuals@gmail.com</span>
                 </li>
               </ul>
             </div>
