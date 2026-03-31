@@ -27,6 +27,7 @@ import LinksPage from './pages/Links';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPasswordConfirm from './pages/ResetPasswordConfirm';
 import PaymentForm from './pages/PaymentForm';
+import WhatsAppButton from "./components/WhatsAppButton";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -68,6 +69,7 @@ function App() {
           <Route path="/dashboard/links" element={<LinksPage/>}></Route>
           
         </Routes>
+        <WhatsAppButton />
       </BrowserRouter>
       </UserProvider>
 

@@ -133,6 +133,22 @@ const Pricing = () => {
         fetchPackageList();
     }, [])
 
+        const handleWhatsAppBooking = (pkg) => {
+    const phoneNumber = "2349120131909"
+
+    const message = `Hello CineGRADE Visuals,
+        I would like to book the *${pkg.package_name}* burial package.
+
+        Package Price: ₦${parseFloat(pkg.price).toLocaleString()}
+
+        Please I would like to get more details and confirm availability. Thank you.`
+
+    const encodedMessage = encodeURIComponent(message)
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
+
+    window.open(whatsappURL, "_blank")
+}
+
     const handleFilterChange = (filterType) => {
         setActiveFilter(filterType)
         // Update URL without navigation
@@ -331,12 +347,13 @@ const Pricing = () => {
                                                     whileHover={{ scale: 1.05 }}
                                                     whileTap={{ scale: 0.98 }}
                                                     className='w-full text-lg h-12 bg-[#222222] text-white border-gray-300 rounded-xl hover:bg-gray-800 font-bold'
-                                                    onClick={() => {
-                                                        localStorage.setItem('order', pkg.id)
-                                                        setBooking(JSON.stringify(pkg))
-                                                        console.log('order is' + localStorage.getItem('order'))
-                                                        user ? navigate('/dashboard/new-booking') : navigate('/login')
-                                                    }}
+                                                    // onClick={() => {
+                                                    //     localStorage.setItem('order', pkg.id)
+                                                    //     setBooking(JSON.stringify(pkg))
+                                                    //     console.log('order is' + localStorage.getItem('order'))
+                                                    //     user ? navigate('/dashboard/new-booking') : navigate('/login')
+                                                    // }}
+                                                    onClick={() => handleWhatsAppBooking(pkg)}
                                                 >
                                                     Book Now
                                                 </motion.button>

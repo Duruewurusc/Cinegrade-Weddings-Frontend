@@ -57,7 +57,62 @@ const Testimonials = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-12">Loading testimonials...</div>;
+  if (loading) {
+  return (
+    <div className="w-full bg-white">
+      <div className="max-w-7xl mx-auto px-4 pt-12 pb-16">
+        
+        {/* Heading skeleton */}
+        <div className="flex justify-center mb-10">
+          <div className="h-10 w-72 bg-gray-200 rounded animate-pulse"></div>
+        </div>
+
+        {/* Cards skeleton */}
+        <div className="flex gap-8 overflow-hidden px-4">
+          {[1,2,3].map((item) => (
+            <div
+              key={item}
+              className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/3"
+            >
+              <div className="bg-[#f8f9fa] rounded-lg p-6 h-[260px] relative overflow-hidden">
+                
+                {/* quote icon ghost */}
+                <div className="absolute top-4 left-4 w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+
+                {/* testimonial text lines */}
+                <div className="space-y-3 mt-10">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-5/6"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-4/6"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-3/6"></div>
+                </div>
+
+                {/* client info skeleton */}
+                <div className="flex items-center mt-10">
+                  <div className="w-14 h-14 rounded-full bg-gray-300 animate-pulse"></div>
+                  <div className="ml-4 space-y-2">
+                    <div className="h-4 w-24 bg-gray-300 rounded animate-pulse"></div>
+                    <div className="h-3 w-20 bg-gray-200 rounded animate-pulse"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* loading indicator */}
+        <div className="flex justify-center mt-8">
+          <div className="flex items-center gap-2 text-gray-500">
+            <div className="w-4 h-4 border-2 border-gray-300 border-t-[#d9b683] rounded-full animate-spin"></div>
+            <span className="text-sm tracking-wide">Loading testimonials...</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
   if (error) return <div className="text-center py-12 text-red-500">Error loading testimonials</div>;
   
   // Use featuredTestimonials instead of all testimonials

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { fetchGalleryImages } from '../services/Api';
+import banner from "../assets/cgw banner.jpg";
 
 const ImageSlider = () => {
   const [images, setImages] = useState([]);
@@ -57,9 +58,19 @@ const ImageSlider = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen text-xl text-gray-600">
-        Loading images...
+          <div className="relative w-full h-[60vh] overflow-hidden">
+      <img
+        src={banner}
+        alt="Loading gallery"
+        className="w-full h-full object-cover"
+      />
+
+      {/* optional dark overlay + spinner */}
+      <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
+        <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-white text-lg tracking-wide">Loading gallery...</p>
       </div>
+    </div>
     );
   }
 
