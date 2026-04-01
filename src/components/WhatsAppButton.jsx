@@ -2,7 +2,7 @@ import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppButton = () => {
-  const phoneNumber = "2349120131909"; // Replace with your WhatsApp number (include country code, no +)
+  const phoneNumber = "2348139285321"; // Replace with your WhatsApp number (include country code, no +)
   const message = "Hello, I would like to make an inquiry.";
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
@@ -15,7 +15,7 @@ const WhatsAppButton = () => {
     href={whatsappUrl}
     target="_blank"
     rel="noopener noreferrer"
-    className="bg-[#d9b683] hover:bg-[#333333] text-white p-4 rounded-full shadow-xl transition transform hover:scale-110 duration-300 block ease-in-out animate-bounce"
+    className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-xl transition transform hover:scale-110 duration-300 block ease-in-out animate-bounce"
   >
     <FaWhatsapp size={28} />
   </a>
