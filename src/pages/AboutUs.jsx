@@ -13,6 +13,13 @@ import { FiCamera, FiFilm, FiHeart, FiAward, FiMail, FiPhone, FiMapPin, FiUsers,
 
 const AboutUs = () => {
   const navigate= useNavigate()
+    const handleWhatsAppClick = () => {
+    const phoneNumber = '2349120131909'
+    const message = 'Hello, I would like to inquire about your photography services.'
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+    window.open(whatsappUrl, '_blank')
+  }
+  
   return (
     <>
     <Navbar/>
@@ -209,7 +216,7 @@ const AboutUs = () => {
             love story and discuss how we can capture it beautifully.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <button onClick={()=>navigate('/contact')}className="px-8 py-4 bg-[#d9b684] text-neutral-900 font-medium rounded-lg hover:bg-neutral-400 transition-colors duration-300 flex items-center gap-2">
+            <button onClick={handleWhatsAppClick} className="px-8 py-4 bg-[#d9b684] text-neutral-900 font-medium rounded-lg hover:bg-neutral-400 transition-colors duration-300 flex items-center gap-2">
               <FiMail className="w-5 h-5" />
               Contact Us
             </button>
