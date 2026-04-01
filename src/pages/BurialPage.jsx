@@ -379,6 +379,7 @@ const BurialPage = () => {
                     </motion.div>
                 )}
             </motion.div>
+            
 
             {/* Terms and Conditions Section */}
             <div className="max-w-6xl mx-auto px-4 py-15">
@@ -390,8 +391,11 @@ const BurialPage = () => {
                 >
                     <h3 className="text-2xl md:text-4xl font-bold text-[#d9b683] mb-4 text-center">Terms OF Service</h3>
                     <div className="space-y-3 py-6 text-sm md:text-xl text-[#5e5e5e] w-full">
-                        <p>We sincerely appreciate your time in reviewing our packages. At <strong>CineGRADE VISUALS</strong>, it is our honor to help families preserve memories through photography and film.
-                            We look forward to working with you. Please feel free to reach out to us at any time for further clarification,questions, or custom requests — we are always here to serve you.<br/><br/></p>
+                        {/* <p>We sincerely appreciate your time in reviewing our packages. At <strong>CineGRADE VISUALS</strong>, it is our honor to help families preserve memories through photography and film.
+                            We look forward to working with you. Please feel free to reach out to us at any time for further clarification,questions, or custom requests — we are always here to serve you.<br/><br/></p> */}
+                            <p>We sincerely appreciate your time in reviewing our packages. The prices listed above are for professional services only and <strong className="font-semibold">do not include transportation and logistics costs</strong>. 
+                        Travel expenses will be calculated based on the event location and distance from our base in Enugu, Nigeria. 
+                        Please contact us for a detailed quote including transportation fees for your specific location.</p>
                         <p><strong>Booking & Reservation:</strong> A non-refundable deposit of 70% is required to secure your booking date. The remaining balance is due immediately after your event.</p>
                         <p><strong>Cancellation Policy:</strong> In the event of cancellation, the deposit is non-refundable. </p>
                         <p><strong>Rescheduling:</strong> Clients may reschedule once without penalty if notice is provided at least 30 days prior to the original event date, subject to availability. A 20% fee applies for rescheduling less than 30 days prior to the event date.</p>
